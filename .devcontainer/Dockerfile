@@ -19,6 +19,8 @@ FROM mcr.microsoft.com/azure-functions/dotnet:4-dotnet6-core-tools
 #     && /bin/bash /tmp/common-script.sh "$INSTALL_ZSH" "$USERNAME" "$USER_UID" "$USER_GID" \
 #     && rm /tmp/common-script.sh 
 
+ENV LD_LIBRARY_PATH=/app/runtimes/debian.9-x64/native/
+
 RUN apt-get update && \
     curl -sL https://deb.nodesource.com/setup_16.x | sudo bash - && \
     apt-get install -y nodejs && \

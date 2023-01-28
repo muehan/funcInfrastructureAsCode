@@ -5,6 +5,7 @@
     <RootNamespace>muehan.infrastructorcreater</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="LibGit2Sharp" Version="0.26.0" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.ServiceBus" Version="4.3.0" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage.Queues" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.3" />
