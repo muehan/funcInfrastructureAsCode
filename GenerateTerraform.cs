@@ -27,22 +27,24 @@ namespace funcInfrastructureAsCode
 
             using (var repo = new Repository(repoPath))
             {
-                var branch = CreateBranch(repo);
+                var branch = CreateBranch(repo, log);
 
                 File
                     .AppendAllText(
                         Path.Combine(repoPath, "textfile.txt"),
                         "demo content");
 
-                StageChanges(repo);
-                CommitChanges(repo);
-                PushChanges(repo, branch);
+                StageChanges(repo, log);
+                CommitChanges(repo, log);
+                PushChanges(repo, branch, log);
             }
         }
 
         public static Branch CreateBranch(
-            Repository repo)
+            Repository repo,
+            ILogger log)
         {
+            log.LogInformation($"CreateBranch");
             var random = new Random();
             var branch = repo.CreateBranch($"resourcegroup-{random.Next(1000, 9999)}");
             Commands.Checkout(repo, branch);
@@ -51,8 +53,10 @@ namespace funcInfrastructureAsCode
         }
 
         public static void StageChanges(
-            Repository repo)
+            Repository repo,
+            ILogger log)
         {
+            log.LogInformation($"StageChanges");
             try
             {
                 RepositoryStatus status = repo
@@ -98,8 +102,10 @@ namespace funcInfrastructureAsCode
         }
 
         public static void CommitChanges(
-            Repository repo)
+            Repository repo,
+            ILogger log)
         {
+            log.LogInformation($"CommitChanges");
             var email = GetEnvironmentVariable("github_email");
 
             try
@@ -118,8 +124,10 @@ namespace funcInfrastructureAsCode
 
         public static void PushChanges(
             Repository repo,
-            Branch branch)
+            Branch branch,
+            ILogger log)
         {
+            log.LogInformation($"PushChanges");
             try
             {
                 var password = GetEnvironmentVariable("github_pat");
