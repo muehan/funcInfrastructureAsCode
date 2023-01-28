@@ -7,35 +7,50 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Azure.Data.Tables;
+using Azure;
 
 namespace funcInfrastructureAsCode
 {
     public static class AddResourceGroup
     {
         [FunctionName("AddResourceGroup")]
+        [return: Queue("terraformTrigger", Connection = "AzureWebJobsStorage")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            [Table("RecourceGroup", Connection = "AzureWebJobsStorage")] IAsyncCollector<ResourceGroup> resourceTable,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            log.LogInformation("AddResourceGroup trogger");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
-            string name = data?.name;
-            string location = data?.location;
 
-            var resource = new ResourceGroup {
-                name = name,
-                location = location
+            log.LogInformation($"name {data?.name} | location {data?.location}");
+
+            var resourceGroup = new ResourceGroup
+            {
+                Name = data?.name,
+                Location = data?.location,
+                RowKey = Guid.NewGuid().ToString("n"),
+                PartitionKey = data?.location
             };
 
-            return new OkObjectResult(JsonConvert.SerializeObject(resource));
+            await resourceTable.AddAsync(resourceGroup);
+
+            // return new OkObjectResult(JsonConvert.SerializeObject(resourceGroup));
+            return new OkObjectResult(resourceGroup);
         }
     }
 
-    public struct ResourceGroup
+    public class ResourceGroup : ITableEntity
     {
-        public string name { get; set; }
-        public string location { get; set; }
+        public string Name { get; set; }
+        public string Location { get; set; }
+        public string PartitionKey { get; set; }
+        public string RowKey { get; set; }
+        public DateTimeOffset? Timestamp { get; set; }
+        public ETag ETag { get; set; }
+
     }
 }

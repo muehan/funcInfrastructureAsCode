@@ -18,3 +18,10 @@ FROM mcr.microsoft.com/azure-functions/dotnet:4-dotnet6-core-tools
 # RUN apt-get update && curl -ssL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/common-debian.sh -o /tmp/common-script.sh \
 #     && /bin/bash /tmp/common-script.sh "$INSTALL_ZSH" "$USERNAME" "$USER_UID" "$USER_GID" \
 #     && rm /tmp/common-script.sh 
+
+RUN apt-get update && \
+    curl -sL https://deb.nodesource.com/setup_16.x | sudo bash - && \
+    apt-get install -y nodejs && \
+    curl -L https://npmjs.org/install.sh | sudo sh
+
+RUN npm install -g azurite
