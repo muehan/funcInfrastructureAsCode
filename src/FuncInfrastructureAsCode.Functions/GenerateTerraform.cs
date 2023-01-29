@@ -26,9 +26,9 @@ namespace funcInfrastructureAsCode
 
             var repoUrl = GetEnvironmentVariable("github_repo");
 
-            LibGit2Sharp.Repository.Clone(repoUrl, repoPath);
+            Repository.Clone(repoUrl, repoPath);
 
-            using (var repo = new LibGit2Sharp.Repository(repoPath))
+            using (var repo = new Repository(repoPath))
             {
                 var branch = CreateBranch(repo, log);
 
@@ -37,6 +37,8 @@ namespace funcInfrastructureAsCode
                         Path.Combine(repoPath, "textfile.txt"),
                         "demo content");
 
+                GenerateTerraFormFiles();
+
                 StageChanges(repo, log);
                 CommitChanges(repo, log);
                 PushChanges(repo, branch, log);
@@ -44,8 +46,12 @@ namespace funcInfrastructureAsCode
             }
         }
 
-        private static LibGit2Sharp.Branch CreateBranch(
-            LibGit2Sharp.Repository repo,
+        private static void GenerateTerraFormFiles(){
+
+        }
+
+        private static Branch CreateBranch(
+            Repository repo,
             ILogger log)
         {
             log.LogInformation($"CreateBranch");
@@ -57,7 +63,7 @@ namespace funcInfrastructureAsCode
         }
 
         private static void StageChanges(
-            LibGit2Sharp.Repository repo,
+            Repository repo,
             ILogger log)
         {
             log.LogInformation($"StageChanges");
@@ -117,8 +123,8 @@ namespace funcInfrastructureAsCode
                 repo
                     .Commit(
                         "updating files..",
-                        new LibGit2Sharp.Signature("function", email, DateTimeOffset.Now),
-                        new LibGit2Sharp.Signature("function", email, DateTimeOffset.Now));
+                        new Signature("function", email, DateTimeOffset.Now),
+                        new Signature("function", email, DateTimeOffset.Now));
             }
             catch (Exception e)
             {
@@ -127,8 +133,8 @@ namespace funcInfrastructureAsCode
         }
 
         private static void PushChanges(
-            LibGit2Sharp.Repository repo,
-            LibGit2Sharp.Branch branch,
+            Repository repo,
+            Branch branch,
             ILogger log)
         {
             log.LogInformation($"PushChanges");
