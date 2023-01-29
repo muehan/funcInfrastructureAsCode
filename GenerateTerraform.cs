@@ -106,7 +106,7 @@ namespace funcInfrastructureAsCode
         }
 
         private static void CommitChanges(
-            LibGit2Sharp.Repository repo,
+            Repository repo,
             ILogger log)
         {
             log.LogInformation($"CommitChanges");
