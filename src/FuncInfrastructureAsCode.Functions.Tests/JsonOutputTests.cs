@@ -1,4 +1,6 @@
+using funcInfrastructureAsCode.Functions.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace FuncInfrastructureAsCodeTests;
 
@@ -8,13 +10,17 @@ public class JsonOutputTests
     [Test]
     public void GenerateRootFile()
     {
-        var output = new GenerateTerraform();
+        var output = new TerraformRoot();
+
+        var serializerSettings = new JsonSerializerSettings();
+        serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
         string json = JsonConvert
             .SerializeObject(
-                new {test = "test" });
+                output,
+                serializerSettings);
 
-        string expected = "{ \"provider\": [ { \"azurerm\": [ { \"features\": [ {} ] } ] } ],";
+        string expected = "{\"provider\":[{\"azurerm\":[{\"features\":[{}]}]}]}";
 
         Assert.That(json, Is.EqualTo(expected));
     }

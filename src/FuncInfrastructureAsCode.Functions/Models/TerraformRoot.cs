@@ -1,6 +1,6 @@
 namespace funcInfrastructureAsCode.Functions.Models
 {
-    public class GenerateTerraform
+    public class TerraformRoot
     {
         public Provider[] Provider { get; set; } = new [] { new Provider() };
     }
@@ -17,6 +17,6 @@ namespace funcInfrastructureAsCode.Functions.Models
 
     public class Feature
     {
-        public string MyProperty { get; set; } = "test";
+        
     }
 }
