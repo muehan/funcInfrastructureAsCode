@@ -18,9 +18,10 @@ public class JsonOutputTests
         string json = JsonConvert
             .SerializeObject(
                 output,
+                Formatting.Indented,
                 serializerSettings);
 
-        string expected = "{\"provider\":[{\"azurerm\":[{\"features\":[{}]}]}]}";
+        string expected = "{\r\n  \"provider\": [\r\n    {\r\n      \"azurerm\": [\r\n        {\r\n          \"features\": [\r\n            {}\r\n          ]\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}";
 
         Assert.That(json, Is.EqualTo(expected));
     }
