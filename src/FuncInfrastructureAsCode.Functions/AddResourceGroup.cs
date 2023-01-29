@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using Azure.Data.Tables;
 using Azure;
 
-namespace funcInfrastructureAsCode
+namespace funcInfrastructureAsCode.Functions
 {
     public static class AddResourceGroup
     {

@@ -1,13 +1,13 @@
-namespace funcInfrastructureAsCode.Models
+namespace funcInfrastructureAsCode.Functions.Models
 {
     public class GenerateTerraform
     {
-        public Provider[] Provider { get; set; }
+        public Provider[] Provider { get; set; } = new [] { new Provider() };
     }
 
     public class Provider
     {
-        public Azurerm[] Azurerm { get; set; }
+        public Azurerm[] Azurerm { get; set; } = new [] { new Azurerm() };
     }
 
     public class Azurerm
@@ -17,6 +17,6 @@ namespace funcInfrastructureAsCode.Models
 
     public class Feature
     {
-
+        public string MyProperty { get; set; } = "test";
     }
 }
