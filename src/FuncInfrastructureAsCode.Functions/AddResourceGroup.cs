@@ -7,8 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Azure.Data.Tables;
-using Azure;
+using funcInfrastructureAsCode.Functions.DbModels;
 
 namespace funcInfrastructureAsCode.Functions
 {
@@ -41,16 +40,5 @@ namespace funcInfrastructureAsCode.Functions
             // return new OkObjectResult(JsonConvert.SerializeObject(resourceGroup));
             return new OkObjectResult(resourceGroup);
         }
-    }
-
-    public class ResourceGroup : ITableEntity
-    {
-        public string Name { get; set; }
-        public string Location { get; set; }
-        public string PartitionKey { get; set; }
-        public string RowKey { get; set; }
-        public DateTimeOffset? Timestamp { get; set; }
-        public ETag ETag { get; set; }
-
     }
 }
