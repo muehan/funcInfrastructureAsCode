@@ -10,10 +10,10 @@ namespace FuncInfrastructureAsCode.Functions.Tests.Builder
             models
                 .Add(
                     new Subnet {
-                        Name = "TestResource",
+                        Name = "TestSubNetwork",
                         AddressPrefixes = "10.0.2.0/24",
                         ResourceGroupName = "DevelopmentResource",
-                        VirtualNetworkName = ""
+                        VirtualNetworkName = "TestNetwork"
                     });
 
             var builder = new SubnetBuilder();
@@ -21,7 +21,7 @@ namespace FuncInfrastructureAsCode.Functions.Tests.Builder
                 .Create(
                     models);
 
-            var expect = " {\r\n	\"azurerm_subnet\": [\r\n		{\r\n			\"example\": [\r\n				{\r\n					\"address_prefixes\": [\r\n						\"10.0.2.0/24\"\r\n					],\r\n					\"name\": \"dev-network-sub\",\r\n					\"resource_group_name\": \"DevelopmentResource\",\r\n					\"virtual_network_name\": \"TestNetwork\"\r\n				}\r\n			]\r\n		}\r\n	]\r\n}";
+            var expect = "{\r\n  \"azurerm_subnet\": [\r\n    {\r\n      \"example\": [\r\n        {\r\n          \"address_prefixes\": [\r\n            \"10.0.2.0/24\"\r\n          ],\r\n          \"name\": \"TestSubNetwork\",\r\n          \"resource_group_name\": \"DevelopmentResource\",\r\n          \"virtual_network_name\": \"TestNetwork\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}";
 
             Assert
                 .That(
