@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using funcInfrastructureAsCode.Functions.DbModels;
 using funcInfrastructureAsCode.Functions.Factories;
-using muehan.infrastructorcreater.DbModels;
 
 namespace funcInfrastructureAsCode.Functions.Builder
 {
@@ -17,7 +17,7 @@ namespace funcInfrastructureAsCode.Functions.Builder
         public string Create(
             List<VirtualNetwork> networks)
         {
-            List<Object> resources = new List<Object>();
+            var resources = new List<Object>();
 
             foreach (var network in networks)
             {
@@ -34,6 +34,5 @@ namespace funcInfrastructureAsCode.Functions.Builder
 
             return json;
         }
-
     }
 }

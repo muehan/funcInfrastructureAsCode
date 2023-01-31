@@ -1,7 +1,7 @@
 using System;
 using Azure;
 
-namespace muehan.infrastructorcreater.DbModels
+namespace funcInfrastructureAsCode.Functions.DbModels
 {
     public class VirtualNetwork
     {
@@ -14,14 +14,6 @@ namespace muehan.infrastructorcreater.DbModels
         public DateTimeOffset? Timestamp { get; set; }
         public ETag ETag { get; set; }
 
-        public dynamic TerraFormStructure => new
-        {
-            address_space = new[] { AddressSpace },
-            location = Location,
-            name = Name,
-            resource_group_name = ResourceGroupName
-        };
-
         /*
             Expected Output
             {
@@ -33,6 +25,12 @@ namespace muehan.infrastructorcreater.DbModels
                 "resource_group_name": "DevelopmentResource"
             }
         */
-
+        public dynamic TerraFormStructure => new
+        {
+            address_space = new[] { AddressSpace },
+            location = Location,
+            name = Name,
+            resource_group_name = ResourceGroupName
+        };
     }
 }

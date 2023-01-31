@@ -1,5 +1,3 @@
-using muehan.infrastructorcreater.DbModels;
-
 namespace FuncInfrastructureAsCode.Functions.Tests.Builder
 {
     public class VirtualNetworkBuilderTests

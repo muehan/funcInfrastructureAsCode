@@ -1,35 +1,35 @@
-using System.Collections.Generic;
-using funcInfrastructureAsCode.Functions.Factories;
 using System;
+using System.Collections.Generic;
 using funcInfrastructureAsCode.Functions.DbModels;
+using funcInfrastructureAsCode.Functions.Factories;
 
 namespace funcInfrastructureAsCode.Functions.Builder
 {
-    public class RecourceGroupBuilder
+    public class SubnetBuilder
     {
         private readonly JsonFactory _jsonFactory;
 
-        public RecourceGroupBuilder()
+        public SubnetBuilder()
         {
             _jsonFactory = new JsonFactory();
         }
 
         public string Create(
-            List<ResourceGroup> resourceGroups)
+            List<Subnet> subnets)
         {
             var resources = new List<Object>();
 
-            foreach (var resource in resourceGroups)
+            foreach (var subnet in subnets)
             {
                 resources
                     .Add(
-                        resource
+                        subnet
                             .TerraFormStructure);
             }
 
             var json = _jsonFactory
                 .Create(
-                    new { azurerm_resource_group = new[] { new { example = resources } } }
+                    new { azurerm_subnet = new[] { new { example = resources } } }
                 );
 
             return json;
