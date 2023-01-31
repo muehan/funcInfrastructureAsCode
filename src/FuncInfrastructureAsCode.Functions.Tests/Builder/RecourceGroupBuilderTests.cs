@@ -4,7 +4,7 @@ namespace FuncInfrastructureAsCode.Functions.Tests.Builder
     public class RecourceGroupBuilderTests
     {
         [Test]
-        public void GenerateRootFile()
+        public void RecourceGroupBuilder_Create_ReturnsValidTerraformStructure()
         {
             var models = new List<ResourceGroup>();
             models
