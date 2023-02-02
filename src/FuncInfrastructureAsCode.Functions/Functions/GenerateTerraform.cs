@@ -9,7 +9,7 @@ using LibGit2Sharp;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 
-namespace funcInfrastructureAsCode.Functions
+namespace funcInfrastructureAsCode.Functions.Functions
 {
     public class GenerateTerraform
     {

@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using funcInfrastructureAsCode.Functions.DbModels;
 
-namespace funcInfrastructureAsCode.Functions
+namespace funcInfrastructureAsCode.Functions.Functions
 {
     public static class AddResourceGroup
     {

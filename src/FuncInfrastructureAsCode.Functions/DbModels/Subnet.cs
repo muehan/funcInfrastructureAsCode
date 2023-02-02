@@ -1,9 +1,11 @@
 using System;
 using Azure;
+using Azure.Data.Tables;
 
 namespace funcInfrastructureAsCode.Functions.DbModels
 {
     public class Subnet
+        : ITableEntity
     {
         public string Name { get; set; }
         public string ResourceGroupName { get; set; }

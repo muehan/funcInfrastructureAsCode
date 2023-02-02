@@ -1,9 +1,11 @@
 using System;
 using Azure;
+using Azure.Data.Tables;
 
 namespace funcInfrastructureAsCode.Functions.DbModels
 {
     public class VirtualNetwork
+        : ITableEntity
     {
         public string Name { get; set; }
         public string Location { get; set; }

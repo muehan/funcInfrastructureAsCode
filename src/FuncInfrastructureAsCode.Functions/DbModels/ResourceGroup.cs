@@ -4,7 +4,8 @@ using Azure.Data.Tables;
 
 namespace funcInfrastructureAsCode.Functions.DbModels
 {
-    public class ResourceGroup : ITableEntity
+    public class ResourceGroup
+         : ITableEntity
     {
         public string Name { get; set; }
         public string Location { get; set; }

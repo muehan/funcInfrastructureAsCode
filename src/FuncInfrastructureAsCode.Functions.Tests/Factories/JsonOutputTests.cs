@@ -1,4 +1,4 @@
-namespace FuncInfrastructureAsCodeTests;
+namespace FuncInfrastructureAsCodeTests.Factories;
 
 [TestFixture]
 public class JsonOutputTests
