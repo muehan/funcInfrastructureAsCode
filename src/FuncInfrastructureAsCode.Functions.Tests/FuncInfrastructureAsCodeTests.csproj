@@ -9,7 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../FuncInfrastructureAsCode.Functions/FuncInfrastructureAsCode.csproj" />
+    <ProjectReference
+      Include="../FuncInfrastructureAsCode.Functions/FuncInfrastructureAsCode.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Builder/main.ts.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

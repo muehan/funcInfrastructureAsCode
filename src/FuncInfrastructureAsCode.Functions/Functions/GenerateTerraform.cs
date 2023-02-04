@@ -54,7 +54,7 @@ namespace funcInfrastructureAsCode.Functions.Functions
 
         private static void GenerateTerraFormFiles()
         {
-
+            
         }
 
         private static string GetEnvironmentVariable(

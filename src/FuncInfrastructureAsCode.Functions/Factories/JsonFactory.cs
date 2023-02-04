@@ -12,14 +12,15 @@ namespace funcInfrastructureAsCode.Functions.Factories
         {
             settings = new JsonSerializerSettings();
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            settings.Formatting = Formatting.Indented;
         }
 
-        public string Create(Object target)
+        public string Create(
+            Object target)
         {
             string json = JsonConvert
                .SerializeObject(
                    target,
-                   Formatting.Indented,
                    settings);
 
             return json;

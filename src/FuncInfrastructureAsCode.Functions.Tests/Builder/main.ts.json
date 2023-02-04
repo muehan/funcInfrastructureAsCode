@@ -1,0 +1,117 @@
+{
+  "provider": [
+    {
+      "azurerm": [
+        {
+          "features": [
+            {}
+          ]
+        }
+      ]
+    }
+  ],
+  "resource": [
+    {
+      "azurerm_resource_group": [
+        {
+          "example": [
+            {
+              "location": "WestEurope",
+              "name": "TestResource"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "azurerm_virtual_network": [
+        {
+          "example": [
+            {
+              "address_space": [
+                "10.0.0.0/16"
+              ],
+              "location": "WestEurope",
+              "name": "VirtualNetworkName",
+              "resource_group_name": "TestResource"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "azurerm_subnet": [
+        {
+          "example": [
+            {
+              "address_prefixes": [
+                "10.0.2.0/24"
+              ],
+              "name": "SubnetTest",
+              "resource_group_name": "TestResource",
+              "virtual_network_name": "${azurerm_virtual_network.example.name}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "azurerm_network_interface": [
+        {
+          "example": [
+            {
+              "name": "NetworkInterfaceName",
+              "location": "WestEurope",
+              "resource_group_name": "TestResource",
+              "ip_configuration": [
+                {
+                  "name": "internal",
+                  "private_ip_address_allocation": "Dynamic",
+                  "subnet_id": "${azurerm_subnet.example.id}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "azurerm_linux_virtual_machine": [
+        {
+          "example": [
+            {
+              "name": "MyFancyVm",
+              "location": "WestEurope",
+              "resource_group_name": "TestResource",
+              "admin_username": "adminuser",
+              "size": "Standard_F2",
+              "admin_ssh_key": [
+                {
+                  "public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDCVz3bmxl2xz\n",
+                  "username": "adminuser"
+                }
+              ],
+              "network_interface_ids": [
+                "${azurerm_network_interface.example.id}"
+              ],
+              "os_disk": [
+                {
+                  "caching": "ReadWrite",
+                  "storage_account_type": "Standard_LRS"
+                }
+              ],
+              "source_image_reference": [
+                {
+                  "offer": "UbuntuServer",
+                  "publisher": "Canonical",
+                  "sku": "16.04-LTS",
+                  "version": "latest"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
