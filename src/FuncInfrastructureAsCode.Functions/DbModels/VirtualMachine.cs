@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using Azure;
 using Azure.Data.Tables;
 
@@ -58,6 +59,7 @@ namespace funcInfrastructureAsCode.Functions.DbModels
             ]
         }
         */
+        [IgnoreDataMember]
         public dynamic TerraFormStructure => new
         {
             name = Name,

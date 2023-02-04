@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using Azure;
 using Azure.Data.Tables;
 
@@ -27,6 +28,7 @@ namespace funcInfrastructureAsCode.Functions.DbModels
                 "resource_group_name": "DevelopmentResource"
             }
         */
+        [IgnoreDataMember]
         public dynamic TerraFormStructure => new
         {
             address_space = new[] { AddressSpace },

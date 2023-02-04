@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using Azure;
 using Azure.Data.Tables;
 
@@ -14,6 +15,7 @@ namespace funcInfrastructureAsCode.Functions.DbModels
         public DateTimeOffset? Timestamp { get; set; }
         public ETag ETag { get; set; }
 
+        [IgnoreDataMember]
         public dynamic TerraFormStructure => new { location = Location, name = Name };
     }
 }
