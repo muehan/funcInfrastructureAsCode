@@ -1,11 +1,15 @@
+using System.Linq;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using funcInfrastructureAsCode.Functions.Builder;
 using funcInfrastructureAsCode.Functions.DbModels;
 using funcInfrastructureAsCode.Functions.Interfaces;
 using LibGit2Sharp;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using Azure.Data.Tables;
 
 namespace funcInfrastructureAsCode.Functions.Functions
 {
@@ -14,11 +18,11 @@ namespace funcInfrastructureAsCode.Functions.Functions
         [FunctionName("GenerateTerraform")]
         public async Task Run(
             [QueueTrigger("terraformTrigger", Connection = "AzureWebJobsStorage")] string myQueueItem,
-            [Table("RecourceGroup", Connection = "AzureWebJobsStorage")] IAsyncCollector<ResourceGroup> resourceGroupTable,
-            [Table("Subnet", Connection = "AzureWebJobsStorage")] IAsyncCollector<Subnet> subnetTable,
-            [Table("NetworkInterface", Connection = "AzureWebJobsStorage")] IAsyncCollector<NetworkInterface> netowrkInterfaceTable,
-            [Table("VirtualNetwork", Connection = "AzureWebJobsStorage")] IAsyncCollector<VirtualNetwork> virtualNetworkTable,
-            [Table("VirtualMachine", Connection = "AzureWebJobsStorage")] IAsyncCollector<VirtualMachine> virtualMachineTable,
+            [Table("RecourceGroup", Connection = "AzureWebJobsStorage")] TableClient resourceGroupTable,
+            [Table("Subnet", Connection = "AzureWebJobsStorage")] TableClient subnetTable,
+            [Table("NetworkInterface", Connection = "AzureWebJobsStorage")] TableClient netowrkInterfaceTable,
+            [Table("VirtualNetwork", Connection = "AzureWebJobsStorage")] TableClient virtualNetworkTable,
+            [Table("VirtualMachine", Connection = "AzureWebJobsStorage")] TableClient virtualMachineTable,
             ILogger log)
         {
             var github = new GithubInterface();
@@ -34,16 +38,23 @@ namespace funcInfrastructureAsCode.Functions.Functions
 
             Repository.Clone(repoUrl, repoPath);
 
+            var resourceGroupList = resourceGroupTable.Query<ResourceGroup>().ToList();
+            var virtualnetworkList = virtualNetworkTable.Query<VirtualNetwork>().ToList();
+            var subnetList = subnetTable.Query<Subnet>().ToList();
+            var networkInterfaceList = netowrkInterfaceTable.Query<NetworkInterface>().ToList();
+            var virtualMachineList = virtualMachineTable.Query<VirtualMachine>().ToList();
+
             using (var repo = new Repository(repoPath))
             {
                 var branch = git.CreateBranch(repo, log);
 
-                File
-                    .AppendAllText(
-                        Path.Combine(repoPath, "textfile.txt"),
-                        "demo content");
-
-                GenerateTerraFormFiles();
+                GenerateTerraFormFiles(
+                    repoPath,
+                    resourceGroupList,
+                    virtualnetworkList,
+                    subnetList,
+                    networkInterfaceList,
+                    virtualMachineList);
 
                 git.StageChanges(repo, log);
                 git.CommitChanges(repo, log);
@@ -52,9 +63,40 @@ namespace funcInfrastructureAsCode.Functions.Functions
             }
         }
 
-        private static void GenerateTerraFormFiles()
+        private static void GenerateTerraFormFiles(
+            string repoPath,
+            List<ResourceGroup> resourceGroupList,
+            List<VirtualNetwork> virtualNetworkList,
+            List<Subnet> subnetList,
+            List<NetworkInterface> networkInterfaceList,
+            List<VirtualMachine> virtualMachineList)
         {
-            
+            var terraformFileBuilder = new TerraformFileBuilder();
+
+            var fileContent = terraformFileBuilder
+                .Create(
+                    resourceGroupList,
+                    virtualNetworkList,
+                    subnetList,
+                    networkInterfaceList,
+                    virtualMachineList);
+
+            var environmentPath = Path.Combine(
+                        repoPath,
+                        GetEnvironmentVariable("environment"));
+
+            if (!Directory.Exists(environmentPath))
+            {
+                Directory.CreateDirectory(environmentPath);
+            }
+
+            File
+                .AppendAllText(
+                    Path.Combine(
+                        repoPath,
+                        GetEnvironmentVariable("environment"),
+                        "main.tf.json"),
+                    fileContent);
         }
 
         private static string GetEnvironmentVariable(

@@ -57,7 +57,7 @@ namespace funcInfrastructureAsCode.Functions.Builder
                         .Create(
                             virtualMachines));
 
-            return json;
+            return $"{json}\r\n";
         }
     }
 }

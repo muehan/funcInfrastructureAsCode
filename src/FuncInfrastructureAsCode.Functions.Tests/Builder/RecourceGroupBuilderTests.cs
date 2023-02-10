@@ -19,7 +19,7 @@ namespace FuncInfrastructureAsCode.Functions.Tests.Builder
                 .Create(
                     models);
 
-            var expect = "{\r\n  \"azurerm_resource_group\": [\r\n    {\r\n      \"example\": [\r\n        {\r\n          \"location\": \"WestEurope\",\r\n          \"name\": \"TestResource\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}";
+            var expect = "{\r\n      \"azurerm_resource_group\": [\r\n        {\r\n          \"example\": [\r\n            {\r\n              \"location\": \"WestEurope\",\r\n              \"name\": \"TestResource\"\r\n            }\r\n          ]\r\n        }\r\n      ]\r\n    }";
 
             Assert
                 .That(

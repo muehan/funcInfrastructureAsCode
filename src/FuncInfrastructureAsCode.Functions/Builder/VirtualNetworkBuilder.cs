@@ -32,6 +32,11 @@ namespace funcInfrastructureAsCode.Functions.Builder
                     new { azurerm_virtual_network = new[] { new { example = resources } } }
                 );
 
+            json = json
+                .Replace("\r\n", "\r\n    ");
+
+            // json = $"  {json}";
+
             return json;
         }
     }
