@@ -91,7 +91,7 @@ namespace funcInfrastructureAsCode.Functions.Functions
             }
 
             File
-                .AppendAllText(
+                .WriteAllText(
                     Path.Combine(
                         repoPath,
                         GetEnvironmentVariable("environment"),
