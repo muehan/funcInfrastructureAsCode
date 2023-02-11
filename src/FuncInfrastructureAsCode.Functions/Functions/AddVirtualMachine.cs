@@ -28,6 +28,7 @@ namespace funcInfrastructureAsCode.Functions.Functions
             {
                 RowKey = Guid.NewGuid().ToString("n"),
                 Name = command.ResourceGroup.Name,
+                LocalName = command.ResourceGroup.LocalName,
                 Location = command.ResourceGroup.Location,
                 PartitionKey = command.ResourceGroup.Name,
             };
@@ -41,6 +42,7 @@ namespace funcInfrastructureAsCode.Functions.Functions
             {
                 RowKey = Guid.NewGuid().ToString("n"),
                 Name = command.VirtualNetwork.Name,
+                LocalName = command.VirtualNetwork.LocalName,
                 Location = command.VirtualNetwork.Location,
                 ResourceGroupName = command.VirtualNetwork.ResourceGroupName,
                 AddressSpace = command.VirtualNetwork.AddressSpace,
@@ -55,6 +57,7 @@ namespace funcInfrastructureAsCode.Functions.Functions
             {
                 RowKey = Guid.NewGuid().ToString("n"),
                 Name = command.Subnet.Name,
+                LocalName = command.Subnet.LocalName,
                 ResourceGroupName = command.Subnet.ResourceGroupName,
                 AddressPrefixes = command.Subnet.AddressPrefixes,
                 VirtualNetworkName = command.VirtualNetwork.Name,
@@ -69,6 +72,7 @@ namespace funcInfrastructureAsCode.Functions.Functions
             {
                 RowKey = Guid.NewGuid().ToString("n"),
                 Name = command.NetworkInterface.Name,
+                LocalName = command.NetworkInterface.LocalName,
                 Location = command.NetworkInterface.Location,
                 ResourceGroupName = command.NetworkInterface.ResourceGroupName,
                 IpConfiguratioName = command.NetworkInterface.IpConfiguratioName,
@@ -85,6 +89,7 @@ namespace funcInfrastructureAsCode.Functions.Functions
             {
                 RowKey = Guid.NewGuid().ToString("n"),
                 Name = command.VirtualMachine.Name,
+                LocalName = command.VirtualMachine.LocalName,
                 Location = command.VirtualMachine.Location,
                 ResourceGroupName = command.VirtualMachine.ResourceGroupName,
                 AdminUsername = command.VirtualMachine.AdminUsername,

@@ -23,10 +23,6 @@ namespace funcInfrastructureAsCode.Functions.Builder
             var jsonFactory = new JsonFactory();
             var json = jsonFactory.Create(root);
 
-            var test =  resourceBuilder
-                    .Create(
-                        resourceGroups);
-
             json = json.Replace(
                 "\"resourceGroup\"",
                 resourceBuilder
