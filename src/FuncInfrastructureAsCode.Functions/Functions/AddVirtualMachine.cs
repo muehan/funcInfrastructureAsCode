@@ -77,7 +77,7 @@ namespace funcInfrastructureAsCode.Functions.Functions
                 ResourceGroupName = command.NetworkInterface.ResourceGroupName,
                 IpConfiguratioName = command.NetworkInterface.IpConfiguratioName,
                 IpConfiguratioPrivateIpAddressAllocation = command.NetworkInterface.IpConfiguratioPrivateIpAddressAllocation,
-                IpConfiguratioSubnetId = "${azurerm_subnet.example.id}",
+                IpConfiguratioSubnetId = $"${{azurerm_subnet.{command.Subnet.LocalName}.id}}",
                 PartitionKey = command.ResourceGroup.Name,
             };
 
@@ -96,7 +96,7 @@ namespace funcInfrastructureAsCode.Functions.Functions
                 Size = command.VirtualMachine.Size,
                 AdminSshKeyPublicKey = command.VirtualMachine.AdminSshKeyPublicKey,
                 AdminSshKeyUsername = command.VirtualMachine.AdminSshKeyUsername,
-                NetworkInterfaceIds = "${azurerm_network_interface.example.id}",
+                NetworkInterfaceIds = $"${{azurerm_network_interface.{command.NetworkInterface.LocalName}.id}}",
                 OsDiskCachine = command.VirtualMachine.OsDiskCachine,
                 OsDiskStorageAccountType = command.VirtualMachine.OsDiskStorageAccountType,
                 SourceImageReferenceOffer = command.VirtualMachine.SourceImageReferenceOffer,
