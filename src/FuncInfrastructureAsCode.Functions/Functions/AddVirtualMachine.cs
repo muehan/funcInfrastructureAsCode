@@ -44,7 +44,7 @@ namespace funcInfrastructureAsCode.Functions.Functions
                 Name = command.VirtualNetwork.Name,
                 LocalName = command.VirtualNetwork.LocalName,
                 Location = command.VirtualNetwork.Location,
-                ResourceGroupName = command.VirtualNetwork.ResourceGroupName,
+                ResourceGroupName = $"${{azurerm_resource_group.{command.ResourceGroup.LocalName}.name}}",
                 AddressSpace = command.VirtualNetwork.AddressSpace,
                 PartitionKey = command.ResourceGroup.Name,
             };
@@ -58,9 +58,9 @@ namespace funcInfrastructureAsCode.Functions.Functions
                 RowKey = Guid.NewGuid().ToString("n"),
                 Name = command.Subnet.Name,
                 LocalName = command.Subnet.LocalName,
-                ResourceGroupName = command.Subnet.ResourceGroupName,
+                ResourceGroupName = $"${{azurerm_resource_group.{command.ResourceGroup.LocalName}.name}}",
                 AddressPrefixes = command.Subnet.AddressPrefixes,
-                VirtualNetworkName = command.VirtualNetwork.Name,
+                VirtualNetworkName = $"${{azurerm_virtual_network.{command.VirtualNetwork.LocalName}.name}}",
                 PartitionKey = command.ResourceGroup.Name,
             };
 
@@ -74,7 +74,7 @@ namespace funcInfrastructureAsCode.Functions.Functions
                 Name = command.NetworkInterface.Name,
                 LocalName = command.NetworkInterface.LocalName,
                 Location = command.NetworkInterface.Location,
-                ResourceGroupName = command.NetworkInterface.ResourceGroupName,
+                ResourceGroupName = $"${{azurerm_resource_group.{command.ResourceGroup.LocalName}.name}}",
                 IpConfiguratioName = command.NetworkInterface.IpConfiguratioName,
                 IpConfiguratioPrivateIpAddressAllocation = command.NetworkInterface.IpConfiguratioPrivateIpAddressAllocation,
                 IpConfiguratioSubnetId = $"${{azurerm_subnet.{command.Subnet.LocalName}.id}}",
@@ -91,7 +91,7 @@ namespace funcInfrastructureAsCode.Functions.Functions
                 Name = command.VirtualMachine.Name,
                 LocalName = command.VirtualMachine.LocalName,
                 Location = command.VirtualMachine.Location,
-                ResourceGroupName = command.VirtualMachine.ResourceGroupName,
+                ResourceGroupName = $"${{azurerm_resource_group.{command.ResourceGroup.LocalName}.name}}",
                 AdminUsername = command.VirtualMachine.AdminUsername,
                 Size = command.VirtualMachine.Size,
                 AdminSshKeyPublicKey = command.VirtualMachine.AdminSshKeyPublicKey,
