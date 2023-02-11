@@ -29,7 +29,7 @@ namespace funcInfrastructureAsCode.Functions.Builder
 
             var json = _jsonFactory
                 .Create(
-                    new { azurerm_linux_virtual_machine = new[] { new { example = resources } } }
+                    new { azurerm_linux_virtual_machine = resources }
                 );
 
             json = json

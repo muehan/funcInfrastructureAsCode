@@ -11,6 +11,7 @@ namespace FuncInfrastructureAsCode.Functions.Tests.Builder
                 .Add(
                     new VirtualMachine {
                         Name = "MyFancyVm",
+                        LocalName = "example",
                         Location = "WestEurope",
                         ResourceGroupName = "TestResource",
                         AdminUsername = "adminuser",

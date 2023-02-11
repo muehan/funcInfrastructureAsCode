@@ -11,6 +11,7 @@ namespace FuncInfrastructureAsCode.Functions.Tests.Builder
                 .Add(
                     new ResourceGroup {
                         Name = "TestResource",
+                        LocalName = "example",
                         Location = "WestEurope"
                     });
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Azure;
 using Azure.Data.Tables;
@@ -9,6 +10,7 @@ namespace funcInfrastructureAsCode.Functions.DbModels
         : ITableEntity
     {
         public string Name { get; set; }
+        public string LocalName { get; set; }
         public string ResourceGroupName { get; set; }
         public string AddressPrefixes { get; set; }
         public string VirtualNetworkName { get; set; }
@@ -28,13 +30,30 @@ namespace funcInfrastructureAsCode.Functions.DbModels
             "virtual_network_name": "${azurerm_virtual_network.example.name}"
         }
         */
+
         [IgnoreDataMember]
-        public dynamic TerraFormStructure => new
+        public dynamic TerraFormStructure
         {
-            address_prefixes = new[] { AddressPrefixes },
-            name = Name,
-            resource_group_name = ResourceGroupName,
-            virtual_network_name = VirtualNetworkName
-        };
+            get
+            {
+                var dict = new Dictionary<string, object>();
+
+                dict
+                    .Add(
+                        LocalName,
+                        new[] {
+                            new
+                            {
+                                address_prefixes = new[] { AddressPrefixes },
+                                name = Name,
+                                resource_group_name = ResourceGroupName,
+                                virtual_network_name = VirtualNetworkName
+                            }
+                            }
+                        );
+
+                return dict;
+            }
+        }
     }
 }

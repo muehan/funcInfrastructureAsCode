@@ -11,6 +11,7 @@ namespace FuncInfrastructureAsCode.Functions.Tests.Builder
                 .Add(
                     new VirtualNetwork {
                         Name = "TestNetwork",
+                        LocalName = "example",
                         Location = "WestEurope",
                         ResourceGroupName = "TestResource",
                         AddressSpace = "10.0.0.0/16"

@@ -12,6 +12,7 @@ namespace FuncInfrastructureAsCode.Functions.Tests.Builder
                     new ResourceGroup
                     {
                         Name = "TestResource",
+                        LocalName = "example",
                         Location = "WestEurope",
                     });
 
@@ -20,6 +21,7 @@ namespace FuncInfrastructureAsCode.Functions.Tests.Builder
                 new VirtualNetwork
                 {
                     Name = "VirtualNetworkName",
+                    LocalName = "example",
                     Location = "WestEurope",
                     ResourceGroupName = "TestResource",
                     AddressSpace = "10.0.0.0/16",
@@ -29,6 +31,7 @@ namespace FuncInfrastructureAsCode.Functions.Tests.Builder
             subnets.Add(new Subnet
             {
                 Name = "SubnetTest",
+                LocalName = "example",
                 ResourceGroupName = "TestResource",
                 VirtualNetworkName = "${azurerm_virtual_network.example.name}",
                 AddressPrefixes = "10.0.2.0/24",
@@ -38,6 +41,7 @@ namespace FuncInfrastructureAsCode.Functions.Tests.Builder
             interfaces.Add(new NetworkInterface
             {
                 Name = "NetworkInterfaceName",
+                LocalName = "example",
                 Location = "WestEurope",
                 ResourceGroupName = "TestResource",
                 IpConfiguratioName = "internal",
@@ -49,6 +53,7 @@ namespace FuncInfrastructureAsCode.Functions.Tests.Builder
             vms.Add(new VirtualMachine
             {
                 Name = "MyFancyVm",
+                LocalName = "example",
                 Location = "WestEurope",
                 ResourceGroupName = "TestResource",
                 Size = "Standard_F2",

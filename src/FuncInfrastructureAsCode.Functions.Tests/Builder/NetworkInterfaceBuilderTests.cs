@@ -11,6 +11,7 @@ namespace FuncInfrastructureAsCode.Functions.Tests.Builder
                 .Add(
                     new NetworkInterface {
                         Name = "TestNetwork",
+                        LocalName = "example",
                         Location = "WestEurope",
                         ResourceGroupName = "TestResource",
                         IpConfiguratioName = "internal",

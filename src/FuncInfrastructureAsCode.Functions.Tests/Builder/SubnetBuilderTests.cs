@@ -11,6 +11,7 @@ namespace FuncInfrastructureAsCode.Functions.Tests.Builder
                 .Add(
                     new Subnet {
                         Name = "TestSubNetwork",
+                        LocalName = "example",
                         AddressPrefixes = "10.0.2.0/24",
                         ResourceGroupName = "DevelopmentResource",
                         VirtualNetworkName = "TestNetwork"

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System;
 using System.Runtime.Serialization;
 using Azure;
@@ -9,6 +10,7 @@ namespace funcInfrastructureAsCode.Functions.DbModels
         : ITableEntity
     {
         public string Name { get; set; }
+        public string LocalName { get; set; }
         public string Location { get; set; }
         public string ResourceGroupName { get; set; }
         public string AddressSpace { get; set; }
@@ -29,12 +31,27 @@ namespace funcInfrastructureAsCode.Functions.DbModels
             }
         */
         [IgnoreDataMember]
-        public dynamic TerraFormStructure => new
+        public dynamic TerraFormStructure
         {
-            address_space = new[] { AddressSpace },
-            location = Location,
-            name = Name,
-            resource_group_name = ResourceGroupName
-        };
+            get
+            {
+                var dict = new Dictionary<string, object>();
+
+                dict
+                    .Add(
+                        LocalName,
+                        new[] {
+                            new {  
+                                address_space = new[] { AddressSpace },
+                                location = Location,
+                                name = Name,
+                                resource_group_name = ResourceGroupName
+                                }
+                            }
+                        );
+
+                return dict;
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Azure;
 using Azure.Data.Tables;
@@ -9,6 +10,7 @@ namespace funcInfrastructureAsCode.Functions.DbModels
          : ITableEntity
     {
         public string Name { get; set; }
+        public string LocalName { get; set; }
         public string Location { get; set; }
         public string PartitionKey { get; set; }
         public string RowKey { get; set; }
@@ -16,6 +18,22 @@ namespace funcInfrastructureAsCode.Functions.DbModels
         public ETag ETag { get; set; }
 
         [IgnoreDataMember]
-        public dynamic TerraFormStructure => new { location = Location, name = Name };
+        public dynamic TerraFormStructure
+        {
+            get
+            {
+                var dict = new Dictionary<string, object>();
+
+                dict
+                    .Add(
+                        LocalName,
+                        new[] {
+                            new { location = Location, name = Name }
+                            }
+                        );
+
+                return dict;
+            }
+        }
     }
 }

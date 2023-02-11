@@ -29,7 +29,7 @@ namespace funcInfrastructureAsCode.Functions.Builder
 
             var json = _jsonFactory
                 .Create(
-                    new { azurerm_subnet = new[] { new { example = resources } } }
+                    new { azurerm_subnet = resources }
                 );
 
             json = json

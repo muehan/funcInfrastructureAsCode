@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Azure;
 using Azure.Data.Tables;
@@ -9,6 +10,7 @@ namespace funcInfrastructureAsCode.Functions.DbModels
         : ITableEntity
     {
         public string Name { get; set; }
+        public string LocalName { get; set; }
         public string Location { get; set; }
         public string ResourceGroupName { get; set; }
         public string AdminUsername { get; set; }
@@ -59,35 +61,52 @@ namespace funcInfrastructureAsCode.Functions.DbModels
             ]
         }
         */
+        
         [IgnoreDataMember]
-        public dynamic TerraFormStructure => new
+        public dynamic TerraFormStructure
         {
-            name = Name,
-            location = Location,
-            resource_group_name = ResourceGroupName,
-            admin_username = AdminUsername,
-            size = Size,
-            admin_ssh_key = new[] {
-                new {
-                    public_key = AdminSshKeyPublicKey,
-                    username = AdminSshKeyUsername
-                }
-            },
-            network_interface_ids = new[] { NetworkInterfaceIds },
-            os_disk = new[] {
-                new {
-                    caching = OsDiskCachine,
-                    storage_account_type = OsDiskStorageAccountType
-                }
-            },
-            source_image_reference = new[] {
-                new {
-                    offer = SourceImageReferenceOffer,
-                    publisher = SourceImageReferencePublisher,
-                    sku = SourceImageReferenceSku,
-                    version = SourceImageReferenceVersion
-                }
+            get
+            {
+                var dict = new Dictionary<string, object>();
+
+                dict
+                    .Add(
+                        LocalName,
+                        new[] {
+                            new
+                            {
+                                name = Name,
+                                location = Location,
+                                resource_group_name = ResourceGroupName,
+                                admin_username = AdminUsername,
+                                size = Size,
+                                admin_ssh_key = new[] {
+                                    new {
+                                        public_key = AdminSshKeyPublicKey,
+                                        username = AdminSshKeyUsername
+                                    }
+                                },
+                                network_interface_ids = new[] { NetworkInterfaceIds },
+                                os_disk = new[] {
+                                    new {
+                                        caching = OsDiskCachine,
+                                        storage_account_type = OsDiskStorageAccountType
+                                    }
+                                },
+                                source_image_reference = new[] {
+                                    new {
+                                        offer = SourceImageReferenceOffer,
+                                        publisher = SourceImageReferencePublisher,
+                                        sku = SourceImageReferenceSku,
+                                        version = SourceImageReferenceVersion
+                                    }
+                                }
+                            }
+                            }
+                        );
+
+                return dict;
             }
-        };
+        }
     }
 }
