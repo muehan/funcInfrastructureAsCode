@@ -36,7 +36,7 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-          az storage blob upload-batch --account-name funcinfrastructureascode --auth-mode key -d 'client' -s ./src/FuncInfrastructureAsCode.Client/build/
+          az storage blob upload-batch --account-name funcinfrastructureascode --auth-mode key -d 'client' -s ./build/
 
 # Azure logout
     - name: logout
