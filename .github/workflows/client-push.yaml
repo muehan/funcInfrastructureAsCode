@@ -20,9 +20,11 @@ jobs:
         node-version: 16.x
     
     - name: Install NPM packages
+      working-directory: ./src/FuncInfrastructureAsCode.Client
       run: npm ci
     
     - name: Build project
+      working-directory: ./src/FuncInfrastructureAsCode.Client
       run: npm run build
 
     - uses: actions/checkout@v3
@@ -31,6 +33,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Upload to blob storage
+      working-directory: ./src/FuncInfrastructureAsCode.Client
       uses: azure/CLI@v1
       with:
         inlineScript: |
