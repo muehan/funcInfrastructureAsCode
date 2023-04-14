@@ -27,6 +27,12 @@ jobs:
       working-directory: ./src/FuncInfrastructureAsCode.Client
       run: npm run build
 
+    - name: check path1
+      run: ls -lisa
+
+    - name: check path1
+      run: ls -lisa /src
+
     - uses: actions/checkout@v3
     - uses: azure/login@v1
       with:
