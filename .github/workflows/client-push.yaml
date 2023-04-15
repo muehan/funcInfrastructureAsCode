@@ -43,13 +43,13 @@ jobs:
     - name: print
       uses: azure/CLI@v1
       with:
-        inlineScript: ls -lisa ./src/FuncInfrastructureAsCode.Client
+        inlineScript: ls -lisa ./src/FuncInfrastructureAsCode.Client/build
 
     - name: Upload to blob storage
       uses: azure/CLI@v1
       with:
         inlineScript: |
-          az storage blob upload-batch --account-name funcinfrastructureascode --auth-mode key -d 'client' -s './src/FuncInfrastructureAsCode.Client/build/*'
+          az storage blob upload-batch --account-name funcinfrastructureascode --auth-mode key -d 'client' -s './src/FuncInfrastructureAsCode.Client/build'
 
 # Azure logout
     - name: logout
