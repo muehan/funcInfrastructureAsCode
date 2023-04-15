@@ -36,7 +36,6 @@ jobs:
     - name: check path3
       run: ls -lisa ./src/FuncInfrastructureAsCode.Client
 
-    - uses: actions/checkout@v3
     - uses: azure/login@v1
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
