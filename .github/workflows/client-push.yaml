@@ -40,12 +40,11 @@ jobs:
     - uses: azure/login@v1
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
+
     - name: print
       uses: azure/CLI@v1
       with:
-        inlineScript: |
-        ls -lisa
+        inlineScript: ls -lisa
 
     - name: Upload to blob storage
       uses: azure/CLI@v1
