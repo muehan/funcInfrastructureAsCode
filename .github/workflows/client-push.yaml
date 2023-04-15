@@ -44,7 +44,7 @@ jobs:
     - name: print
       uses: azure/CLI@v1
       with:
-        inlineScript: ls -lisa
+        inlineScript: ls -lisa ./src/FuncInfrastructureAsCode.Client
 
     - name: Upload to blob storage
       uses: azure/CLI@v1
