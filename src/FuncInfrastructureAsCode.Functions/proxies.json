@@ -6,28 +6,28 @@
                 "methods": ["GET"],
                 "route": "/"
             },
-            "backendUri": "https://funcdemomuehan.blob.core.windows.net/client/dist/index.html"
+            "backendUri": "https://funcinfrastructureascode.blob.core.windows.net/client/index.html"
         },
         "css": {
             "matchCondition": {
                 "methods": ["GET"],
                 "route": "/css/{*restOfPath}"
             },
-            "backendUri": "https://funcdemomuehan.blob.core.windows.net/client/dist/css/{restOfPath}"
+            "backendUri": "https://funcinfrastructureascode.blob.core.windows.net/client/static/css/{restOfPath}"
         },
         "js": {
             "matchCondition": {
                 "methods": ["GET"],
                 "route": "/js/{*restOfPath}"
             },
-            "backendUri": "https://funcdemomuehan.blob.core.windows.net/client/dist/js/{restOfPath}"
+            "backendUri": "https://funcinfrastructureascode.blob.core.windows.net/client/static/js/{restOfPath}"
         },
         "img": {
             "matchCondition": {
                 "methods": ["GET"],
-                "route": "/img/{*restOfPath}"
+                "route": "/media/{*restOfPath}"
             },
-            "backendUri": "https://funcdemomuehan.blob.core.windows.net/client/dist/img/{restOfPath}"
+            "backendUri": "https://funcinfrastructureascode.blob.core.windows.net/client/static/media/{restOfPath}"
         }
     }
 }
