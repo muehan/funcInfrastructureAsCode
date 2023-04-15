@@ -27,23 +27,9 @@ jobs:
       working-directory: ./src/FuncInfrastructureAsCode.Client
       run: npm run build
 
-    - name: check path1
-      run: ls -lisa
-
-    - name: check path2
-      run: ls -lisa ./src
-
-    - name: check path3
-      run: ls -lisa ./src/FuncInfrastructureAsCode.Client
-
     - uses: azure/login@v1
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: print
-      uses: azure/CLI@v1
-      with:
-        inlineScript: ls -lisa ./src/FuncInfrastructureAsCode.Client/build
 
     - name: Upload to blob storage
       uses: azure/CLI@v1
