@@ -30,8 +30,11 @@ jobs:
     - name: check path1
       run: ls -lisa
 
-    - name: check path1
+    - name: check path2
       run: ls -lisa ./src
+
+    - name: check path3
+      run: ls -lisa ./src/FuncInfrastructureAsCode.Client
 
     - uses: actions/checkout@v3
     - uses: azure/login@v1
