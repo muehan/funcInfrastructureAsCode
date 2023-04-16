@@ -35,7 +35,7 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-          az storage blob upload-batch --account-name funcstoragestatic --auth-mode key -d '$web' -s './src/FuncInfrastructureAsCode.Client/build'
+          az storage blob upload-batch --overwrite --account-name funcstoragestatic --auth-mode key -d '$web' -s './src/FuncInfrastructureAsCode.Client/build'
 
 # Azure logout
     - name: logout
