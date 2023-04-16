@@ -1,12 +1,11 @@
-import logo from "./logo.svg";
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useMsal, useAccount } from "@azure/msal-react";
 
 function App() {
   const { instance, accounts, inProgress } = useMsal();
   const account = useAccount(accounts[0] || {});
-  const [apiData, setApiData] = useState(null);
+  // const [apiData, setApiData] = useState(null);
 
   useEffect(() => {
     console.log(account);

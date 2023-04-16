@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 
 import { MsalProvider } from "@azure/msal-react";
 import { PublicClientApplication } from "@azure/msal-browser";
-import { AuthenticatedTemplate, UnauthenticatedTemplate, MsalAuthenticationTemplate  } from "@azure/msal-react";
+import { UnauthenticatedTemplate, MsalAuthenticationTemplate  } from "@azure/msal-react";
 import { InteractionType } from "@azure/msal-browser";
 
 const configuration = {
