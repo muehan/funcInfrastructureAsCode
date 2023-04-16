@@ -1,13 +1,57 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import { MsalProvider } from "@azure/msal-react";
+import { PublicClientApplication } from "@azure/msal-browser";
+import { AuthenticatedTemplate, UnauthenticatedTemplate, MsalAuthenticationTemplate  } from "@azure/msal-react";
+import { InteractionType } from "@azure/msal-browser";
+
+const configuration = {
+  auth: {
+    clientId: "e44368db-bfee-45f1-b34d-1d3932593964",
+    redirectUri: window.location.origin,
+    authority: "https://login.microsoftonline.com/8d9ee075-c4e3-45ea-b93f-ca7916eba85d"
+  },
+};
+
+const pca = new PublicClientApplication(configuration);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+function ErrorComponent({error}) {
+  return <p>An Error Occurred: {error.message}</p>;
+}
+
+function LoadingComponent() {
+  return <p>Authentication in progress...</p>;
+}
+
+const authRequest = {
+  scopes: ["openid", "profile"]
+};
+
 root.render(
   <React.StrictMode>
-    <App />
+    <MsalProvider instance={pca}>
+      <p>Infrastructure as Code</p>
+      {/* <AuthenticatedTemplate>
+        <App />
+      </AuthenticatedTemplate> */}
+       <MsalAuthenticationTemplate 
+            interactionType={InteractionType.Redirect} 
+            authenticationRequest={authRequest} 
+            errorComponent={ErrorComponent} 
+            loadingComponent={LoadingComponent}
+        >
+             <App />
+        </MsalAuthenticationTemplate>
+      <UnauthenticatedTemplate>
+        <p>You are not logged in</p>
+      </UnauthenticatedTemplate>
+    </MsalProvider>
   </React.StrictMode>
 );
 
