@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import React, { useState, useEffect } from "react";
+import { useMsal, useAccount } from "@azure/msal-react";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const { instance, accounts, inProgress } = useMsal();
+  const account = useAccount(accounts[0] || {});
+  const [apiData, setApiData] = useState(null);
+
+  useEffect(() => {
+    console.log(account);
+    if (account) {
+      instance
+        .acquireTokenSilent({
+          scopes: ["User.Read"],
+          account: account,
+        })
+        .then((response) => {
+          console.log(response);
+          if (response) {
+            console.log(response);
+            // callMsGraph(response.accessToken).then((result) =>
+            //   setApiData(result)
+            // );
+          }
+        });
+    }
+  }, [account, instance]);
+
+  if (accounts.length > 0) {
+    return (
+      <>
+        <span>There are currently {accounts.length} users signed in!</span>
+      </>
+    );
+  } else if (inProgress === "login") {
+    return <span>Login is currently in progress!</span>;
+  } else {
+    return <span>There are currently no users signed in!</span>;
+  }
 }
 
 export default App;

@@ -30,7 +30,7 @@ function LoadingComponent() {
 }
 
 const authRequest = {
-  scopes: ["openid", "profile"]
+  scopes: ["openid", "User.Read", "profile"]
 };
 
 root.render(
