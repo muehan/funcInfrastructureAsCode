@@ -22,6 +22,24 @@ function App() {
             // callMsGraph(response.accessToken).then((result) =>
             //   setApiData(result)
             // );
+
+            fetch(
+              "https://funcinfrastructureascode.azurewebsites.net/api/Authtest",
+              {
+                headers: {
+                  Accept: 'application/json',
+                  Authentication: "Bearer " + response.accessToken,
+                  'X-Custom-Header': 'header value'
+                },
+              }
+            )
+              .then((response) => {
+                console.log(response);
+                return response.json();
+              })
+              .then((data) =>
+                this.setState({ totalReactPackages: data.total })
+              );
           }
         });
     }
