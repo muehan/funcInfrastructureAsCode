@@ -13,27 +13,30 @@ const ResourceGroups = () => {
   const data = resourceGroups.response;
 
   return (
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Localname</th>
-          <th>Location</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data &&
-          data.map((row) => {
-            return (
-              <tr key={row.name}>
-                <td>{row.name}</td>
-                <td>{row.localName}</td>
-                <td>{row.location}</td>
-              </tr>
-            )
-          })}
-      </tbody>
-    </Table>
+    <div>
+      <h3>ResourceGroups</h3>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Localname</th>
+            <th>Location</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data &&
+            data.map((row) => {
+              return (
+                <tr key={row.name}>
+                  <td>{row.name}</td>
+                  <td>{row.localName}</td>
+                  <td>{row.location}</td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </Table>
+    </div>
   );
 };
 
