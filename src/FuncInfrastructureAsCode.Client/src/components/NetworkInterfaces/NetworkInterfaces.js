@@ -1,10 +1,10 @@
 import "./NetworkInterfaces.css";
 import React from "react";
 import Table from "react-bootstrap/Table";
-import { useNetworkInterfaces } from "./../../apis/FetchNetworkInterfaces";
+import { useFetch } from "../../apis/FetchData";
 
 const NetworkInterfaces = () => {
-  const networkInterfaces = useNetworkInterfaces();
+  const networkInterfaces = useFetch("https://funcinfrastructureascode.azurewebsites.net/api/NetworkInterfaces");
 
   if (!Array.isArray(networkInterfaces.response)) {
     return <p>Loading...</p>;

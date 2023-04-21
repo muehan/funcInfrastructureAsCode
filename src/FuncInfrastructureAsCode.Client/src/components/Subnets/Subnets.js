@@ -1,10 +1,10 @@
 import React from "react";
 import "./Subnets.css";
 import Table from "react-bootstrap/Table";
-import { useSubnets } from "../../apis/FetchSubnets";
+import { useFetch } from "../../apis/FetchData";
 
 const Subnets = () => {
-  const subnets = useSubnets();
+  const subnets = useFetch("https://funcinfrastructureascode.azurewebsites.net/api/Subnets");
 
   if (!Array.isArray(subnets.response)) {
     return <p>Loading...</p>;

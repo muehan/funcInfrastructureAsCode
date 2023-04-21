@@ -1,10 +1,10 @@
 import "./ResourceGroups.css";
 import React from "react";
 import Table from "react-bootstrap/Table";
-import { useResourceGroups } from "../../apis/FetchResourceGroups";
+import { useFetch } from "../../apis/FetchData";
 
 const ResourceGroups = () => {
-  const resourceGroups = useResourceGroups();
+  const resourceGroups = useFetch("https://funcinfrastructureascode.azurewebsites.net/api/ResourceGroups");
 
   if (!Array.isArray(resourceGroups.response)) {
     return <p>Loading...</p>;
