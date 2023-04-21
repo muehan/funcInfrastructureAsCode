@@ -16,20 +16,19 @@ function App() {
 
   useEffect(() => {
     if (account) {
-      instance
-        .acquireTokenSilent({
-          scopes: ["api://aaa69109-96f8-4597-b27c-335a6c506098/access_as_user"],
-          account: account,
-        })
+      instance.acquireTokenSilent({
+        scopes: ["api://aaa69109-96f8-4597-b27c-335a6c506098/access_as_user"],
+        account: account,
+      });
     }
   }, [account, instance]);
 
   if (accounts.length > 0) {
     return (
       <div>
-        <AppNavbar />
-        <Container style={{marginTop: 15 + "px"}}>
-          <BrowserRouter>
+        <BrowserRouter>
+          <AppNavbar />
+          <Container style={{ marginTop: 15 + "px" }}>
             <Switch>
               <Route exact path="/">
                 <Home />
@@ -47,8 +46,8 @@ function App() {
                 <VirtualNetwork />
               </Route>
             </Switch>
-          </BrowserRouter>
-        </Container>
+          </Container>
+        </BrowserRouter>
       </div>
     );
   } else if (inProgress === "login") {

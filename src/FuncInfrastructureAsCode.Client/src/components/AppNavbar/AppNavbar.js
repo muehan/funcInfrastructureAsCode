@@ -5,6 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { Link } from "react-router-dom";
 
 import { useMsal, useAccount } from "@azure/msal-react";
 
@@ -28,17 +29,22 @@ const AppNavbar = () => {
             <Nav.Link href="/">Home</Nav.Link>
 
             <NavDropdown title="Resources" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/resourceGroups">
+
+              <NavDropdown.Item as={Link} to="/resourceGroups">
                 ResourceGroup
               </NavDropdown.Item>
-              <NavDropdown.Item href="/networkInterfaces">
+
+              <NavDropdown.Item as={Link} to="/networkInterfaces">
                 NetworkInterfaces
               </NavDropdown.Item>
-              <NavDropdown.Item href="/subnets">Subnets</NavDropdown.Item>
-              <NavDropdown.Item href="/virtualNetowrk">
+
+              <NavDropdown.Item as={Link} to="/subnets">Subnets</NavDropdown.Item>
+              
+              <NavDropdown.Item as={Link} to="/virtualNetowrk">
                 VirtualNetworks
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">
+              
+              <NavDropdown.Item as={Link} to="#action/3.3">
                 VirtualMachines
               </NavDropdown.Item>
             </NavDropdown>

@@ -43,7 +43,7 @@ export const useFetch = (url) => {
     };
 
     fetchData();
-  }, [account, instance]);
+  }, [account, instance, url]);
 
   return { response, error };
 };
