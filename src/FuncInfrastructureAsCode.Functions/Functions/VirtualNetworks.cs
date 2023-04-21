@@ -12,28 +12,28 @@ using funcInfrastructureAsCode.Functions.Models;
 
 namespace FuncInfrastructureAsCode.Functions
 {
-    public static class Subnets
+    public static class VirtualNetworks
     {
-        [FunctionName("Subnets")]
+        [FunctionName("VirtualNetworks")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
-            [Table("Subnet", Connection = "AzureWebJobsStorage")] TableClient subnetTable,
+            [Table("VirtualNetwork", Connection = "AzureWebJobsStorage")] TableClient virtualNetworkTable,
             ILogger log)
         {
-            var subnets = subnetTable.Query<Subnet>().ToList();
+            var subnets = virtualNetworkTable.Query<VirtualNetwork>().ToList();
 
-            var results = new List<SubnetViewModel>();
+            var results = new List<VirtualNetworkViewModel>();
 
-            subnets.ForEach(subnet =>
+            subnets.ForEach(virtualNetwork =>
             {
                 results
                     .Add(
-                        new SubnetViewModel {
-                            Name = subnet.Name,
-                            LocalName = subnet.LocalName,
-                            ResourceGroupName = subnet.ResourceGroupName,
-                            AddressPrefixes = subnet.AddressPrefixes,
-                            VirtualNetworkName = subnet.VirtualNetworkName
+                        new VirtualNetworkViewModel {
+                            Name = virtualNetwork.Name,
+                            LocalName = virtualNetwork.LocalName,
+                            Location = virtualNetwork.Location,
+                            ResourceGroupName = virtualNetwork.ResourceGroupName,
+                            AddressSpace = virtualNetwork.AddressSpace
                         }
                     );
             });
