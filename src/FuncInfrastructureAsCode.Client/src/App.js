@@ -4,6 +4,7 @@ import { useMsal, useAccount } from "@azure/msal-react";
 import AppNavbar from "./components/AppNavbar/AppNavbar";
 import Home from "./components/Home/Home";
 import ResourceGroups from "./components/ResourceGroups/ResourceGroups";
+import NetworkInterfaces from "./components/NetworkInterfaces/NetworkInterfaces";
 import Container from "react-bootstrap/Container";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
@@ -48,6 +49,9 @@ function App() {
               </Route>
               <Route path="/resourceGroups">
                 <ResourceGroups />
+              </Route>
+              <Route path="/networkInterfaces">
+                <NetworkInterfaces />
               </Route>
             </Switch>
           </BrowserRouter>

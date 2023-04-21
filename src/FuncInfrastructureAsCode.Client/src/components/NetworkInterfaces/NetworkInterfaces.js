@@ -1,16 +1,17 @@
-import "./ResourceGroups.css";
+import "./NetworkInterfaces.css";
 import React from "react";
 import Table from "react-bootstrap/Table";
-import { useResourceGroups } from "../../apis/FetchResourceGroups";
+import { useNetworkInterfaces } from "./../../apis/FetchNetworkInterfaces";
 
-const ResourceGroups = () => {
-  const resourceGroups = useResourceGroups();
 
-  if (!Array.isArray(resourceGroups.response)) {
+const NetworkInterfaces = () => {
+  const networkInterfaces = useNetworkInterfaces();
+
+  if (!Array.isArray(networkInterfaces.response)) {
     return <p>Loading...</p>;
   }
 
-  const data = resourceGroups.response;
+  const data = networkInterfaces.response;
 
   return (
     <Table striped bordered hover>
@@ -34,11 +35,11 @@ const ResourceGroups = () => {
           })}
       </tbody>
     </Table>
-  );
+  )
 };
 
-ResourceGroups.propTypes = {};
+NetworkInterfaces.propTypes = {};
 
-ResourceGroups.defaultProps = {};
+NetworkInterfaces.defaultProps = {};
 
-export default ResourceGroups;
+export default NetworkInterfaces;
