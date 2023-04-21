@@ -17,10 +17,10 @@ namespace FuncInfrastructureAsCode.Functions
         [FunctionName("NetworkInterfaces")]
                 public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
-            [Table("NetworkInterface", Connection = "AzureWebJobsStorage")] TableClient resourceGroupTable,
+            [Table("NetworkInterface", Connection = "AzureWebJobsStorage")] TableClient networkInterfaceTable,
             ILogger log)
         {
-            var groups = resourceGroupTable.Query<NetworkInterface>().ToList();
+            var groups = networkInterfaceTable.Query<NetworkInterface>().ToList();
 
             var results = new List<NetworkInterfaceViewModel>();
 
