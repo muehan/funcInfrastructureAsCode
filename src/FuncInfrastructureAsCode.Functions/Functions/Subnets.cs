@@ -14,7 +14,7 @@ namespace FuncInfrastructureAsCode.Functions
 {
     public static class Subnets
     {
-        [FunctionName("Subnet")]
+        [FunctionName("Subnets")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             [Table("Subnet", Connection = "AzureWebJobsStorage")] TableClient subnetTable,

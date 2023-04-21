@@ -5,6 +5,7 @@ import AppNavbar from "./components/AppNavbar/AppNavbar";
 import Home from "./components/Home/Home";
 import ResourceGroups from "./components/ResourceGroups/ResourceGroups";
 import NetworkInterfaces from "./components/NetworkInterfaces/NetworkInterfaces";
+import Subnets from "./components/Subnets/Subnets";
 import Container from "react-bootstrap/Container";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
@@ -52,6 +53,9 @@ function App() {
               </Route>
               <Route path="/networkInterfaces">
                 <NetworkInterfaces />
+              </Route>
+              <Route path="/subnets">
+                <Subnets />
               </Route>
             </Switch>
           </BrowserRouter>
