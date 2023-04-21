@@ -30,7 +30,7 @@ function LoadingComponent() {
 }
 
 const authRequest = {
-  scopes: ["openid", "User.Read", "profile"]
+  scopes: ["api://aaa69109-96f8-4597-b27c-335a6c506098/access_as_user"]
 };
 
 root.render(
