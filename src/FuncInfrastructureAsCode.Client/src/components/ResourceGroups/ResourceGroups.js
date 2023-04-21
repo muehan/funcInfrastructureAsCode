@@ -1,40 +1,41 @@
 import "./ResourceGroups.css";
-import React, { useEffect } from "react";
-import { useMsal, useAccount } from "@azure/msal-react";
+import React from "react";
+import Table from "react-bootstrap/Table";
+import { useResourceGroups } from "./../../helpers/FetchResourceGroups";
 
 const ResourceGroups = () => {
-  const { instance, accounts } = useMsal();
-  const account = useAccount(accounts[0] || {});
+  const resourceGroups = useResourceGroups();
 
-  useEffect(() => {
-    if (account) {
-      instance
-        .acquireTokenSilent({
-          scopes: ["api://aaa69109-96f8-4597-b27c-335a6c506098/access_as_user"],
-          account: account,
-        })
-        .then((response) => {
-          fetch(
-            "https://funcinfrastructureascode.azurewebsites.net/api/ResourceGroups",
-            {
-              headers: {
-                Accept: "application/json",
-                Authorization: "Bearer " + response.accessToken,
-              },
-            }
-          )
-            .then((response) => {
-              console.log(response);
-              return response.json();
-            })
-            .then((response) => {
-              console.log(response);
-            });
-        });
-    }
-  }, [account, instance]);
+  if (!Array.isArray(resourceGroups.response)) {
+    return <p>Loading...</p>;
+  }
 
-  return <div className="ResourceGroups">ResourceGroups Component</div>;
+  const data = resourceGroups.response;
+  console.log(data);
+
+  return (
+    <Table striped bordered hover>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Localname</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data &&
+          data.map((row) => {
+            return (
+              <tr>
+                <td>{row.name}</td>
+                <td>{row.localName}</td>
+                <td>{row.location}</td>
+              </tr>
+            )
+          })}
+      </tbody>
+    </Table>
+  );
 };
 
 ResourceGroups.propTypes = {};
