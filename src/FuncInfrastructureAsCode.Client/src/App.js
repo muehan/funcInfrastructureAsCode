@@ -40,7 +40,7 @@ function App() {
     return (
       <div>
         <AppNavbar />
-        <Container style={{marginBottom: 15 + "px"}}>
+        <Container style={{marginTop: 15 + "px"}}>
           <BrowserRouter>
             <Switch>
               <Route exact path="/">

@@ -11,7 +11,6 @@ const ResourceGroups = () => {
   }
 
   const data = resourceGroups.response;
-  console.log(data);
 
   return (
     <Table striped bordered hover>
@@ -26,7 +25,7 @@ const ResourceGroups = () => {
         {data &&
           data.map((row) => {
             return (
-              <tr>
+              <tr key={row.name}>
                 <td>{row.name}</td>
                 <td>{row.localName}</td>
                 <td>{row.location}</td>

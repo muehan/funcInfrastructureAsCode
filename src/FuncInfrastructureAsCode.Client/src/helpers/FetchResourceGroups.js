@@ -19,21 +19,25 @@ export const useResourceGroups = () => {
             account: account,
           })
           .then((token) => {
-            fetch(
-              "https://funcinfrastructureascode.azurewebsites.net/api/ResourceGroups",
-              {
-                headers: {
-                  Accept: "application/json",
-                  Authorization: "Bearer " + token.accessToken,
-                },
-              }
-            )
-              .then((response) => {
-                return response.json();
-              })
-              .then((data) => {
-                setResponse(data);
-              });
+            try {
+              fetch(
+                "https://funcinfrastructureascode.azurewebsites.net/api/ResourceGroups",
+                {
+                  headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + token.accessToken,
+                  },
+                }
+              )
+                .then((response) => {
+                  return response.json();
+                })
+                .then((data) => {
+                  setResponse(data);
+                });
+            } catch (error) {
+              setError(error);
+            }
           });
       }
     };
