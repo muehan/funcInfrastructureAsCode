@@ -2,8 +2,9 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 import { useMsal, useAccount } from "@azure/msal-react";
 
@@ -24,11 +25,26 @@ const AppNavbar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
+
+            <NavDropdown title="Resources" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/resourceGroups">
+                ResourceGroup
+              </NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">
+                NetworkInterfaces
+              </NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Subnets</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">
+                VirtualNetworks
+              </NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">
+                VirtualMachines
+              </NavDropdown.Item>
+            </NavDropdown>
           </Nav>
           <Form className="d-flex">
-            <Button variant="outline-success" onClick={handleLogout}>
+            <Button variant="outline-dark" onClick={handleLogout}>
               Logout
             </Button>
           </Form>

@@ -2,6 +2,10 @@ import "./App.css";
 import React, { useEffect } from "react";
 import { useMsal, useAccount } from "@azure/msal-react";
 import AppNavbar from "./components/AppNavbar/AppNavbar";
+import Home from "./components/Home/Home";
+import ResourceGroups from "./components/ResourceGroups/ResourceGroups";
+import Container from "react-bootstrap/Container";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 function App() {
   const { instance, accounts, inProgress } = useMsal();
@@ -12,13 +16,10 @@ function App() {
     if (account) {
       instance
         .acquireTokenSilent({
-          scopes: [
-            "api://aaa69109-96f8-4597-b27c-335a6c506098/access_as_user",
-          ],
+          scopes: ["api://aaa69109-96f8-4597-b27c-335a6c506098/access_as_user"],
           account: account,
         })
         .then((response) => {
-
           fetch(
             "https://funcinfrastructureascode.azurewebsites.net/api/Authtest",
             {
@@ -29,12 +30,8 @@ function App() {
             }
           )
             .then((response) => {
-              console.log(response);
               return response.json();
-            })
-            .then(response => {
-              console.log(response);
-            })
+            });
         });
     }
   }, [account, instance]);
@@ -42,11 +39,19 @@ function App() {
   if (accounts.length > 0) {
     return (
       <div>
-      <AppNavbar />
-      
-      <>
-        <span>There are currently {accounts.length} users signed in!</span>
-      </>
+        <AppNavbar />
+        <Container style={{marginBottom: 15 + "px"}}>
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route path="/resourceGroups">
+                <ResourceGroups />
+              </Route>
+            </Switch>
+          </BrowserRouter>
+        </Container>
       </div>
     );
   } else if (inProgress === "login") {

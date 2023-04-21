@@ -12,7 +12,7 @@ namespace funcInfrastructureAsCode.Functions.Functions
         [FunctionName("RegenerateTerraformFile")]
         [return: Queue("terraformTrigger", Connection = "AzureWebJobsStorage")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] CreateVirtualMachineCommand command,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] CreateVirtualMachineCommand command,
             ILogger log)
         {
             log.LogInformation("RegenerateTerraformFile trigger");
