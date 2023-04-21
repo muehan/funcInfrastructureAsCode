@@ -1,6 +1,7 @@
 import "./App.css";
 import React, { useEffect } from "react";
 import { useMsal, useAccount } from "@azure/msal-react";
+import AppNavbar from "./components/AppNavbar/AppNavbar";
 
 function App() {
   const { instance, accounts, inProgress } = useMsal();
@@ -40,9 +41,13 @@ function App() {
 
   if (accounts.length > 0) {
     return (
+      <div>
+      <AppNavbar />
+      
       <>
         <span>There are currently {accounts.length} users signed in!</span>
       </>
+      </div>
     );
   } else if (inProgress === "login") {
     return <span>Login is currently in progress!</span>;

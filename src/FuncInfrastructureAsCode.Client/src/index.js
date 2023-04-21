@@ -9,6 +9,8 @@ import { PublicClientApplication } from "@azure/msal-browser";
 import { UnauthenticatedTemplate, MsalAuthenticationTemplate  } from "@azure/msal-react";
 import { InteractionType } from "@azure/msal-browser";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const configuration = {
   auth: {
     clientId: "e44368db-bfee-45f1-b34d-1d3932593964",
@@ -36,13 +38,9 @@ const authRequest = {
 root.render(
   <React.StrictMode>
     <MsalProvider instance={pca}>
-      <p>Infrastructure as Code</p>
-      {/* <AuthenticatedTemplate>
-        <App />
-      </AuthenticatedTemplate> */}
        <MsalAuthenticationTemplate 
             interactionType={InteractionType.Redirect} 
-            authenticationRequest={authRequest} 
+            authenticationRequest={authRequest}
             errorComponent={ErrorComponent} 
             loadingComponent={LoadingComponent}
         >
