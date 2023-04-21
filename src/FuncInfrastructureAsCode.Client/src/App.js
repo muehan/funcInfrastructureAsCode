@@ -8,33 +8,19 @@ import NetworkInterfaces from "./components/NetworkInterfaces/NetworkInterfaces"
 import Subnets from "./components/Subnets/Subnets";
 import Container from "react-bootstrap/Container";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import VirtualNetwork from "./components/VirtualNetwork/VirtualNetwork";
 
 function App() {
   const { instance, accounts, inProgress } = useMsal();
   const account = useAccount(accounts[0] || {});
 
   useEffect(() => {
-    // console.log(account);
     if (account) {
       instance
         .acquireTokenSilent({
           scopes: ["api://aaa69109-96f8-4597-b27c-335a6c506098/access_as_user"],
           account: account,
         })
-        .then((response) => {
-          fetch(
-            "https://funcinfrastructureascode.azurewebsites.net/api/Authtest",
-            {
-              headers: {
-                Accept: "application/json",
-                Authorization: "Bearer " + response.accessToken,
-              },
-            }
-          )
-            .then((response) => {
-              return response.json();
-            });
-        });
     }
   }, [account, instance]);
 
@@ -56,6 +42,9 @@ function App() {
               </Route>
               <Route path="/subnets">
                 <Subnets />
+              </Route>
+              <Route path="/virtualNetowrk">
+                <VirtualNetwork />
               </Route>
             </Switch>
           </BrowserRouter>

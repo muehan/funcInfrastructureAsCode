@@ -35,7 +35,7 @@ const AppNavbar = () => {
                 NetworkInterfaces
               </NavDropdown.Item>
               <NavDropdown.Item href="/subnets">Subnets</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">
+              <NavDropdown.Item href="/virtualNetowrk">
                 VirtualNetworks
               </NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">
