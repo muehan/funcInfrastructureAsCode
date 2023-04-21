@@ -20,7 +20,9 @@ const Subnets = () => {
           <tr>
             <th>Name</th>
             <th>Localname</th>
-            <th>Location</th>
+            <th>ResourceGroupName</th>
+            <th>AddressPrefixes</th>
+            <th>VirtualNetworkName</th>
           </tr>
         </thead>
         <tbody>
@@ -30,7 +32,9 @@ const Subnets = () => {
                 <tr key={row.name}>
                   <td>{row.name}</td>
                   <td>{row.localName}</td>
-                  <td>{row.location}</td>
+                  <td>{row.resourceGroupName}</td>
+                  <td>{row.addressPrefixes}</td>
+                  <td>{row.virtualNetworkName}</td>
                 </tr>
               );
             })}
