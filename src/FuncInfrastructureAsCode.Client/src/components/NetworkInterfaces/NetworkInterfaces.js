@@ -24,7 +24,6 @@ const NetworkInterfaces = () => {
             <th>ResourceGroupName</th>
             <th>IpConfiguratioName</th>
             <th>IpConfiguratioPrivateIpAddressAllocation</th>
-            <th>IpConfiguratioSubnetId</th>
           </tr>
         </thead>
         <tbody>
@@ -38,7 +37,6 @@ const NetworkInterfaces = () => {
                   <td>{row.resourceGroupName}</td>
                   <td>{row.ipConfiguratioName}</td>
                   <td>{row.ipConfiguratioPrivateIpAddressAllocation}</td>
-                  <td>{row.ipConfiguratioSubnetId}</td>
                 </tr>
               );
             })}
