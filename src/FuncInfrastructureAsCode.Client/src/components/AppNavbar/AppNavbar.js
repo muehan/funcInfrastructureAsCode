@@ -44,7 +44,7 @@ const AppNavbar = () => {
                 VirtualNetworks
               </NavDropdown.Item>
               
-              <NavDropdown.Item as={Link} to="#action/3.3">
+              <NavDropdown.Item as={Link} to="/virtualMachines">
                 VirtualMachines
               </NavDropdown.Item>
             </NavDropdown>

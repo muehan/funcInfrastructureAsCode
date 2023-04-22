@@ -1,12 +1,62 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import './VirtualMachines.css';
+import React from "react";
+import "./VirtualMachines.css";
+import Table from "react-bootstrap/Table";
+import { useFetch } from "../../apis/FetchData";
 
-const VirtualMachines = () => (
-  <div className="VirtualMachines">
-    VirtualMachines Component
-  </div>
-);
+const VirtualMachines = () => {
+  const virtualMachines = useFetch(
+    "https://funcinfrastructureascode.azurewebsites.net/api/ViirtualMachines"
+  );
+
+  if (!Array.isArray(virtualMachines.response)) {
+    return <p>Loading...</p>;
+  }
+
+  const data = virtualMachines.response;
+
+  return (
+    <div>
+      <h3>NetworkInterfaces</h3>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Localname</th>
+            <th>Location</th>
+            <th>ResourceGroupName</th>
+            <th>Size</th>
+            <th>OsDiskCachine</th>
+            <th>OsDiskStorageAccountType</th>
+            <th>SourceImageReferenceOffer</th>
+            <th>SourceImageReferencePublisher</th>
+            <th>SourceImageReferenceSku</th>
+            <th>SourceImageReferenceVersion</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data &&
+            data.map((row) => {
+              return (
+                <tr key={row.name}>
+                  <td>{row.name}</td>
+                  <td>{row.localName}</td>
+                  <td>{row.location}</td>
+                  <td>{row.resourceGroupName}</td>
+                  <td>{row.size}</td>
+                  <td>{row.osDiskCachine}</td>
+                  <td>{row.osDiskStorageAccountType}</td>
+                  <td>{row.sourceImageReferenceOffer}</td>
+                  <td>{row.sourceImageReferencePublisher}</td>
+                  <td>{row.sourceImageReferenceSku}</td>
+                  <td>{row.sourceImageReferenceVersion}</td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </Table>
+    </div>
+  );
+};
 
 VirtualMachines.propTypes = {};
 

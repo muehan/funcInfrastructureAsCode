@@ -9,6 +9,7 @@ import Subnets from "./components/Subnets/Subnets";
 import Container from "react-bootstrap/Container";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import VirtualNetwork from "./components/VirtualNetwork/VirtualNetwork";
+import VirtualMachines from "./components/VirtualMachines/VirtualMachines";
 
 function App() {
   const { instance, accounts, inProgress } = useMsal();
@@ -44,6 +45,9 @@ function App() {
               </Route>
               <Route path="/virtualNetowrk">
                 <VirtualNetwork />
+              </Route>
+              <Route path="/virtualMachines">
+                <VirtualMachines />
               </Route>
             </Switch>
           </Container>
