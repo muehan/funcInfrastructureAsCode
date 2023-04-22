@@ -17,7 +17,7 @@ namespace FuncInfrastructureAsCode.Functions
         [FunctionName("VirtualMachines")]
        public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
-            [Table("VirtuaMachines", Connection = "AzureWebJobsStorage")] TableClient virtualNetworkTable,
+            [Table("VirtualMachine", Connection = "AzureWebJobsStorage")] TableClient virtualNetworkTable,
             ILogger log)
         {
             var subnets = virtualNetworkTable.Query<VirtualMachine>().ToList();

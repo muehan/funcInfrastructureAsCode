@@ -5,7 +5,7 @@ import { useFetch } from "../../apis/FetchData";
 
 const VirtualMachines = () => {
   const virtualMachines = useFetch(
-    "https://funcinfrastructureascode.azurewebsites.net/api/ViirtualMachines"
+    "https://funcinfrastructureascode.azurewebsites.net/api/VirtualMachines"
   );
 
   if (!Array.isArray(virtualMachines.response)) {
