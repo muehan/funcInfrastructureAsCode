@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using funcInfrastructureAsCode.Functions.DbModels;
 using funcInfrastructureAsCode.Functions.Factories;
 using funcInfrastructureAsCode.Functions.Models;
+using Microsoft.Extensions.Logging;
 
 namespace funcInfrastructureAsCode.Functions.Builder
 {
@@ -12,7 +13,8 @@ namespace funcInfrastructureAsCode.Functions.Builder
             List<VirtualNetwork> virtualNetworks,
             List<Subnet> subnets,
             List<NetworkInterface> networkInterfaces,
-            List<VirtualMachine> virtualMachines)
+            List<VirtualMachine> virtualMachines,
+            ILogger log)
         {
             var resourceBuilder = new RecourceGroupBuilder();
             var virtualNetwork = new VirtualNetworkBuilder();
@@ -22,6 +24,8 @@ namespace funcInfrastructureAsCode.Functions.Builder
             var root = new TerraformRoot();
             var jsonFactory = new JsonFactory();
             var json = jsonFactory.Create(root);
+
+            log.LogInformation("created empty json file");
 
             json = json.Replace(
                 "\"resourceGroup\"",

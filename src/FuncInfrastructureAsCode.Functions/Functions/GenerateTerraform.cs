@@ -82,7 +82,8 @@ namespace funcInfrastructureAsCode.Functions.Functions
                     virtualNetworkList,
                     subnetList,
                     networkInterfaceList,
-                    virtualMachineList);
+                    virtualMachineList,
+                    log);
 
             var environmentPath = Path.Combine(
                         repoPath,
