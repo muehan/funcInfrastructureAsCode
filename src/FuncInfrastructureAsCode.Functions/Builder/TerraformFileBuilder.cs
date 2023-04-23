@@ -33,11 +33,15 @@ namespace funcInfrastructureAsCode.Functions.Builder
                     .Create(
                         resourceGroups));
 
+            log.LogInformation("added ResourceGroups");
+
             json = json.Replace(
                 "\"virtualNetwork\"",
                  virtualNetwork
                     .Create(
                         virtualNetworks));
+
+            log.LogInformation("added virtualNetwork");
 
             json = json.Replace(
                 "\"subnets\"",
@@ -45,17 +49,23 @@ namespace funcInfrastructureAsCode.Functions.Builder
                         .Create(
                             subnets));
 
+            log.LogInformation("added subnets");
+
             json = json.Replace(
                 "\"interfaces\"",
                 networkInterfaceBuilder
                         .Create(
                             networkInterfaces));
 
+            log.LogInformation("added interfaces");
+
             json = json.Replace(
                 "\"vistualMachine\"",
                 virtualMachineBuilder
                         .Create(
                             virtualMachines));
+
+            log.LogInformation("added vistualMachine");
 
             return $"{json}\r\n";
         }
