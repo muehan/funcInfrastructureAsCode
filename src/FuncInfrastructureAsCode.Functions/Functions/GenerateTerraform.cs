@@ -54,7 +54,8 @@ namespace funcInfrastructureAsCode.Functions.Functions
                     virtualnetworkList,
                     subnetList,
                     networkInterfaceList,
-                    virtualMachineList);
+                    virtualMachineList,
+                    log);
 
                 git.StageChanges(repo, log);
                 git.CommitChanges(repo, log);
@@ -69,8 +70,10 @@ namespace funcInfrastructureAsCode.Functions.Functions
             List<VirtualNetwork> virtualNetworkList,
             List<Subnet> subnetList,
             List<NetworkInterface> networkInterfaceList,
-            List<VirtualMachine> virtualMachineList)
+            List<VirtualMachine> virtualMachineList,
+            ILogger log)
         {
+            log.LogInformation($"Start generating file");
             var terraformFileBuilder = new TerraformFileBuilder();
 
             var fileContent = terraformFileBuilder
@@ -84,6 +87,8 @@ namespace funcInfrastructureAsCode.Functions.Functions
             var environmentPath = Path.Combine(
                         repoPath,
                         GetEnvironmentVariable("environment"));
+
+            log.LogInformation($"Start terraform file for {environmentPath}");
 
             if (!Directory.Exists(environmentPath))
             {
