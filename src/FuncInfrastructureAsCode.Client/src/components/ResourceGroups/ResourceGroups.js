@@ -4,7 +4,7 @@ import Table from "react-bootstrap/Table";
 import { useFetch } from "../../apis/FetchData";
 
 const ResourceGroups = () => {
-  const resourceGroups = useFetch("https://funcinfrastructureascode.azurewebsites.net/api/ResourceGroups");
+  const resourceGroups = useFetch("/ResourceGroups");
 
   if (!Array.isArray(resourceGroups.response)) {
     return <p>Loading...</p>;

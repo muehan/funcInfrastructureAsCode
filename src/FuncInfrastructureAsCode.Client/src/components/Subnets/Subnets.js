@@ -4,7 +4,7 @@ import Table from "react-bootstrap/Table";
 import { useFetch } from "../../apis/FetchData";
 
 const Subnets = () => {
-  const subnets = useFetch("https://funcinfrastructureascode.azurewebsites.net/api/Subnets");
+  const subnets = useFetch("/Subnets");
 
   if (!Array.isArray(subnets.response)) {
     return <p>Loading...</p>;

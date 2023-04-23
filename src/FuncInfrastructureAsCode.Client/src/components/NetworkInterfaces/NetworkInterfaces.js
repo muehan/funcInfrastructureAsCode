@@ -4,7 +4,7 @@ import Table from "react-bootstrap/Table";
 import { useFetch } from "../../apis/FetchData";
 
 const NetworkInterfaces = () => {
-  const networkInterfaces = useFetch("https://funcinfrastructureascode.azurewebsites.net/api/NetworkInterfaces");
+  const networkInterfaces = useFetch("/NetworkInterfaces");
 
   if (!Array.isArray(networkInterfaces.response)) {
     return <p>Loading...</p>;

@@ -5,7 +5,7 @@ import { useFetch } from '../../apis/FetchData';
 
 const VirtualNetwork = () => {
 
-  const subnets = useFetch("https://funcinfrastructureascode.azurewebsites.net/api/VirtualNetworks");
+  const subnets = useFetch("/VirtualNetworks");
 
   if (!Array.isArray(subnets.response)) {
     return <p>Loading...</p>;

@@ -8,6 +8,8 @@ export const useFetch = (url) => {
   const [response, setResponse] = React.useState({});
   const [error, setError] = React.useState({});
 
+  var baseUrl = process.env.REACT_APP_FUNCTION_API;
+
   useEffect(() => {
     const fetchData = async () => {
       if (account) {
@@ -21,7 +23,7 @@ export const useFetch = (url) => {
           .then((token) => {
             try {
               fetch(
-                url,
+                baseUrl + url,
                 {
                   headers: {
                     Accept: "application/json",
@@ -43,7 +45,7 @@ export const useFetch = (url) => {
     };
 
     fetchData();
-  }, [account, instance, url]);
+  }, [account, instance, url, baseUrl]);
 
   return { response, error };
 };
