@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Azure;
 using Azure.Data.Tables;
+using funcInfrastructureAsCode.Functions.Abstraction;
+using funcInfrastructureAsCode.Functions.Commands;
 
 namespace funcInfrastructureAsCode.Functions.DbModels
 {
     public class ResourceGroup
-         : ITableEntity
+         : ITableEntity,
+           IMappedEntity<ResourceGroup>
     {
         public string Name { get; set; }
         public string LocalName { get; set; }
@@ -34,6 +37,16 @@ namespace funcInfrastructureAsCode.Functions.DbModels
 
                 return dict;
             }
+        }
+
+        public void Map(
+            CreateVirtualMachineCommand command)
+        {
+            RowKey = Guid.NewGuid().ToString("n");
+            Name = command.ResourceGroup.Name;
+            LocalName = command.ResourceGroup.LocalName;
+            Location = command.ResourceGroup.Location;
+            PartitionKey = command.ResourceGroup.Name;
         }
     }
 }

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Azure;
 using Azure.Data.Tables;
+using funcInfrastructureAsCode.Functions.Abstraction;
+using funcInfrastructureAsCode.Functions.Commands;
 
 namespace funcInfrastructureAsCode.Functions.DbModels
 {
     public class NetworkInterface
-        : ITableEntity
+        : ITableEntity,
+          IMappedEntity<NetworkInterface>
     {
         public string Name { get; set; }
         public string LocalName { get; set; }
@@ -63,6 +66,20 @@ namespace funcInfrastructureAsCode.Functions.DbModels
 
                 return dict;
             }
+        }
+
+        public void Map(
+            CreateVirtualMachineCommand command)
+        {
+            RowKey = Guid.NewGuid().ToString("n");
+            Name = command.NetworkInterface.Name;
+            LocalName = command.NetworkInterface.LocalName;
+            Location = command.NetworkInterface.Location;
+            ResourceGroupName = $"${{azurerm_resource_group.{command.ResourceGroup.LocalName}.name}}";
+            IpConfiguratioName = command.NetworkInterface.IpConfiguratioName;
+            IpConfiguratioPrivateIpAddressAllocation = command.NetworkInterface.IpConfiguratioPrivateIpAddressAllocation;
+            IpConfiguratioSubnetId = $"${{azurerm_subnet.{command.Subnet.LocalName}.id}}";
+            PartitionKey = command.ResourceGroup.Name;
         }
     }
 }

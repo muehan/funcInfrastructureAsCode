@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Azure;
 using Azure.Data.Tables;
+using funcInfrastructureAsCode.Functions.Abstraction;
+using funcInfrastructureAsCode.Functions.Commands;
 
 namespace funcInfrastructureAsCode.Functions.DbModels
 {
     public class VirtualMachine
-        : ITableEntity
+        : ITableEntity,
+          IMappedEntity<VirtualMachine>
     {
         public string Name { get; set; }
         public string LocalName { get; set; }
@@ -61,7 +64,7 @@ namespace funcInfrastructureAsCode.Functions.DbModels
             ]
         }
         */
-        
+
         [IgnoreDataMember]
         public dynamic TerraFormStructure
         {
@@ -107,6 +110,28 @@ namespace funcInfrastructureAsCode.Functions.DbModels
 
                 return dict;
             }
+        }
+
+        public void Map(
+            CreateVirtualMachineCommand command)
+        {
+            RowKey = Guid.NewGuid().ToString("n");
+            Name = command.VirtualMachine.Name;
+            LocalName = command.VirtualMachine.LocalName;
+            Location = command.VirtualMachine.Location;
+            ResourceGroupName = $"${{azurerm_resource_group.{command.ResourceGroup.LocalName}.name}}";
+            AdminUsername = command.VirtualMachine.AdminUsername;
+            Size = command.VirtualMachine.Size;
+            AdminSshKeyPublicKey = command.VirtualMachine.AdminSshKeyPublicKey;
+            AdminSshKeyUsername = command.VirtualMachine.AdminSshKeyUsername;
+            NetworkInterfaceIds = $"${{azurerm_network_interface.{command.NetworkInterface.LocalName}.id}}";
+            OsDiskCachine = command.VirtualMachine.OsDiskCachine;
+            OsDiskStorageAccountType = command.VirtualMachine.OsDiskStorageAccountType;
+            SourceImageReferenceOffer = command.VirtualMachine.SourceImageReferenceOffer;
+            SourceImageReferencePublisher = command.VirtualMachine.SourceImageReferencePublisher;
+            SourceImageReferenceSku = command.VirtualMachine.SourceImageReferenceSku;
+            SourceImageReferenceVersion = command.VirtualMachine.SourceImageReferenceVersion;
+            PartitionKey = command.ResourceGroup.Name;
         }
     }
 }

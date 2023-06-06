@@ -1,3 +1,6 @@
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+
 namespace FuncInfrastructureAsCode.Functions.Tests.Builder
 {
     [TestFixture]
@@ -69,6 +72,8 @@ namespace FuncInfrastructureAsCode.Functions.Tests.Builder
                 SourceImageReferenceVersion = "latest",
             });
 
+            var logger = new Logger<TerraformFileBuilder>(new NullLoggerFactory());
+
             var builder = new TerraformFileBuilder();
             var actual = builder
                 .Create(
@@ -76,7 +81,8 @@ namespace FuncInfrastructureAsCode.Functions.Tests.Builder
                     virtualNetwork,
                     subnets,
                     interfaces,
-                    vms);
+                    vms,
+                    logger);
 
             var expect = File.ReadAllText("Builder\\main.ts.json");
 

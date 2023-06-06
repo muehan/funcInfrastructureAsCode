@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using funcInfrastructureAsCode.Functions.DbModels;
 using funcInfrastructureAsCode.Functions.Commands;
 using System;
+using Azure.Data.Tables;
+using funcInfrastructureAsCode.Functions.Services;
 
 namespace funcInfrastructureAsCode.Functions.Functions
 {
@@ -16,103 +18,61 @@ namespace funcInfrastructureAsCode.Functions.Functions
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] CreateVirtualMachineCommand command,
             [Table("RecourceGroup", Connection = "AzureWebJobsStorage")] IAsyncCollector<ResourceGroup> resourceGroupTable,
+            [Table("RecourceGroup", Connection = "AzureWebJobsStorage")] TableClient resourceGroupQuery,
             [Table("Subnet", Connection = "AzureWebJobsStorage")] IAsyncCollector<Subnet> subnetTable,
-            [Table("NetworkInterface", Connection = "AzureWebJobsStorage")] IAsyncCollector<NetworkInterface> netowrkInterfaceTable,
+            [Table("Subnet", Connection = "AzureWebJobsStorage")] TableClient subnetQuery,
+            [Table("NetworkInterface", Connection = "AzureWebJobsStorage")] IAsyncCollector<NetworkInterface> networkInterfaceTable,
+            [Table("NetworkInterface", Connection = "AzureWebJobsStorage")] TableClient networkInterfaceQuery,
             [Table("VirtualNetwork", Connection = "AzureWebJobsStorage")] IAsyncCollector<VirtualNetwork> virtualNetworkTable,
+            [Table("VirtualNetwork", Connection = "AzureWebJobsStorage")] TableClient virtualNetworkQuery,
             [Table("VirtualMachine", Connection = "AzureWebJobsStorage")] IAsyncCollector<VirtualMachine> virtualMachineTable,
+            [Table("VirtualMachine", Connection = "AzureWebJobsStorage")] TableClient virtualMachineQuery,
             ILogger log)
         {
             log.LogInformation("AddVirtualMachine trigger");
 
-            var resourceGroup = new ResourceGroup
+            var resourcePersistanceService = new PersistanceService(log);
+
+            var resourceGroup = await resourcePersistanceService
+                .CreateIfNotExist<ResourceGroup>(
+                    resourceGroupTable,
+                    resourceGroupQuery,
+                    command,
+                    (e) => e.Name == command.ResourceGroup.Name);
+
+
+            var virtualnetwork = await resourcePersistanceService
+                .CreateIfNotExist<VirtualNetwork>(
+                    virtualNetworkTable,
+                    virtualNetworkQuery,
+                    command,
+                    (e) => e.Name == command.VirtualNetwork.Name);
+
+            var subnet = await resourcePersistanceService
+                .CreateIfNotExist<Subnet>(
+                    subnetTable,
+                    subnetQuery,
+                    command,
+                    (e) => e.Name == command.Subnet.Name);
+
+            var networkInterface = await resourcePersistanceService
+                .CreateIfNotExist<NetworkInterface>(
+                    networkInterfaceTable,
+                    networkInterfaceQuery,
+                    command,
+                    (e) => e.Name == command.NetworkInterface.Name);
+
+            var virtualMachine = await resourcePersistanceService
+                .CreateIfNotExist<VirtualMachine>(
+                    virtualMachineTable,
+                    virtualMachineQuery,
+                    command,
+                    (e) => e.Name == command.VirtualMachine.Name);
+
+            return new OkObjectResult(new
             {
-                RowKey = Guid.NewGuid().ToString("n"),
-                Name = command.ResourceGroup.Name,
-                LocalName = command.ResourceGroup.LocalName,
-                Location = command.ResourceGroup.Location,
-                PartitionKey = command.ResourceGroup.Name,
-            };
-
-            await resourceGroupTable
-                .AddAsync(
-                    resourceGroup);
-
-
-            var virtuelnetwork = new VirtualNetwork
-            {
-                RowKey = Guid.NewGuid().ToString("n"),
-                Name = command.VirtualNetwork.Name,
-                LocalName = command.VirtualNetwork.LocalName,
-                Location = command.VirtualNetwork.Location,
-                ResourceGroupName = $"${{azurerm_resource_group.{command.ResourceGroup.LocalName}.name}}",
-                AddressSpace = command.VirtualNetwork.AddressSpace,
-                PartitionKey = command.ResourceGroup.Name,
-            };
-
-            await virtualNetworkTable
-                .AddAsync(
-                    virtuelnetwork);
-
-            var subnet = new Subnet
-            {
-                RowKey = Guid.NewGuid().ToString("n"),
-                Name = command.Subnet.Name,
-                LocalName = command.Subnet.LocalName,
-                ResourceGroupName = $"${{azurerm_resource_group.{command.ResourceGroup.LocalName}.name}}",
-                AddressPrefixes = command.Subnet.AddressPrefixes,
-                VirtualNetworkName = $"${{azurerm_virtual_network.{command.VirtualNetwork.LocalName}.name}}",
-                PartitionKey = command.ResourceGroup.Name,
-            };
-
-            await subnetTable
-                .AddAsync(
-                    subnet);
-
-            var networkInterface = new NetworkInterface
-            {
-                RowKey = Guid.NewGuid().ToString("n"),
-                Name = command.NetworkInterface.Name,
-                LocalName = command.NetworkInterface.LocalName,
-                Location = command.NetworkInterface.Location,
-                ResourceGroupName = $"${{azurerm_resource_group.{command.ResourceGroup.LocalName}.name}}",
-                IpConfiguratioName = command.NetworkInterface.IpConfiguratioName,
-                IpConfiguratioPrivateIpAddressAllocation = command.NetworkInterface.IpConfiguratioPrivateIpAddressAllocation,
-                IpConfiguratioSubnetId = $"${{azurerm_subnet.{command.Subnet.LocalName}.id}}",
-                PartitionKey = command.ResourceGroup.Name,
-            };
-
-            await netowrkInterfaceTable
-                .AddAsync(
-                    networkInterface);
-
-            var virtualMachine = new VirtualMachine
-            {
-                RowKey = Guid.NewGuid().ToString("n"),
-                Name = command.VirtualMachine.Name,
-                LocalName = command.VirtualMachine.LocalName,
-                Location = command.VirtualMachine.Location,
-                ResourceGroupName = $"${{azurerm_resource_group.{command.ResourceGroup.LocalName}.name}}",
-                AdminUsername = command.VirtualMachine.AdminUsername,
-                Size = command.VirtualMachine.Size,
-                AdminSshKeyPublicKey = command.VirtualMachine.AdminSshKeyPublicKey,
-                AdminSshKeyUsername = command.VirtualMachine.AdminSshKeyUsername,
-                NetworkInterfaceIds = $"${{azurerm_network_interface.{command.NetworkInterface.LocalName}.id}}",
-                OsDiskCachine = command.VirtualMachine.OsDiskCachine,
-                OsDiskStorageAccountType = command.VirtualMachine.OsDiskStorageAccountType,
-                SourceImageReferenceOffer = command.VirtualMachine.SourceImageReferenceOffer,
-                SourceImageReferencePublisher = command.VirtualMachine.SourceImageReferencePublisher,
-                SourceImageReferenceSku = command.VirtualMachine.SourceImageReferenceSku,
-                SourceImageReferenceVersion = command.VirtualMachine.SourceImageReferenceVersion,
-                PartitionKey = command.ResourceGroup.Name,
-            };
-
-            await virtualMachineTable
-                .AddAsync(
-                    virtualMachine);
-
-            return new OkObjectResult(new {
                 resourceGroup = resourceGroup,
-                virtuelnetwork = virtuelnetwork,
+                virtuelnetwork = virtualnetwork,
                 subnet = subnet,
                 networkInterface = networkInterface,
                 virtualMachine = virtualMachine

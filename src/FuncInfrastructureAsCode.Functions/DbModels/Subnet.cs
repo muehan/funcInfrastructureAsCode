@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Azure;
 using Azure.Data.Tables;
+using funcInfrastructureAsCode.Functions.Abstraction;
+using funcInfrastructureAsCode.Functions.Commands;
 
 namespace funcInfrastructureAsCode.Functions.DbModels
 {
     public class Subnet
-        : ITableEntity
+        : ITableEntity,
+          IMappedEntity<Subnet>
     {
         public string Name { get; set; }
         public string LocalName { get; set; }
@@ -54,6 +57,18 @@ namespace funcInfrastructureAsCode.Functions.DbModels
 
                 return dict;
             }
+        }
+
+        public void Map(
+            CreateVirtualMachineCommand command)
+        {
+            RowKey = Guid.NewGuid().ToString("n");
+            Name = command.Subnet.Name;
+            LocalName = command.Subnet.LocalName;
+            ResourceGroupName = $"${{azurerm_resource_group.{command.ResourceGroup.LocalName}.name}}";
+            AddressPrefixes = command.Subnet.AddressPrefixes;
+            VirtualNetworkName = $"${{azurerm_virtual_network.{command.VirtualNetwork.LocalName}.name}}";
+            PartitionKey = command.ResourceGroup.Name;
         }
     }
 }
