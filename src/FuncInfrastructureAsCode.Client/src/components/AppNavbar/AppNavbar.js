@@ -29,7 +29,6 @@ const AppNavbar = () => {
             <Nav.Link href="/">Home</Nav.Link>
 
             <NavDropdown title="Resources" id="basic-nav-dropdown">
-
               <NavDropdown.Item as={Link} to="/resourceGroups">
                 ResourceGroup
               </NavDropdown.Item>
@@ -38,17 +37,26 @@ const AppNavbar = () => {
                 NetworkInterfaces
               </NavDropdown.Item>
 
-              <NavDropdown.Item as={Link} to="/subnets">Subnets</NavDropdown.Item>
-              
+              <NavDropdown.Item as={Link} to="/subnets">
+                Subnets
+              </NavDropdown.Item>
+
               <NavDropdown.Item as={Link} to="/virtualNetowrk">
                 VirtualNetworks
               </NavDropdown.Item>
-              
+
               <NavDropdown.Item as={Link} to="/virtualMachines">
                 VirtualMachines
               </NavDropdown.Item>
             </NavDropdown>
+
+            <NavDropdown title="Requests" id="basic-nav-dropdown">
+              <NavDropdown.Item as={Link} to="/request/virtualMachines">
+                VirtualMachine
+              </NavDropdown.Item>
+            </NavDropdown>
           </Nav>
+
           <Form className="d-flex">
             <Button variant="outline-dark" onClick={handleLogout}>
               Logout

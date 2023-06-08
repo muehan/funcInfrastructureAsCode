@@ -10,6 +10,7 @@ import Container from "react-bootstrap/Container";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import VirtualNetwork from "./components/VirtualNetwork/VirtualNetwork";
 import VirtualMachines from "./components/VirtualMachines/VirtualMachines";
+import RequestVirtualMachine from "./components/RequestVirtualMachine/RequestVirtualMachine";
 
 function App() {
   const { instance, accounts, inProgress } = useMsal();
@@ -48,6 +49,9 @@ function App() {
               </Route>
               <Route path="/virtualMachines">
                 <VirtualMachines />
+              </Route>
+              <Route path="/request/virtualMachines">
+                <RequestVirtualMachine />
               </Route>
             </Switch>
           </Container>

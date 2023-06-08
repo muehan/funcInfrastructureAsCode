@@ -6,16 +6,21 @@ import reportWebVitals from "./reportWebVitals";
 
 import { MsalProvider } from "@azure/msal-react";
 import { PublicClientApplication } from "@azure/msal-browser";
-import { UnauthenticatedTemplate, MsalAuthenticationTemplate  } from "@azure/msal-react";
+import {
+  UnauthenticatedTemplate,
+  MsalAuthenticationTemplate,
+} from "@azure/msal-react";
 import { InteractionType } from "@azure/msal-browser";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import VirtualMachineProvider from "./providers/VirtualMachineProvider";
 
 const configuration = {
   auth: {
     clientId: "e44368db-bfee-45f1-b34d-1d3932593964",
     redirectUri: window.location.origin,
-    authority: "https://login.microsoftonline.com/8d9ee075-c4e3-45ea-b93f-ca7916eba85d"
+    authority:
+      "https://login.microsoftonline.com/8d9ee075-c4e3-45ea-b93f-ca7916eba85d",
   },
 };
 
@@ -23,7 +28,7 @@ const pca = new PublicClientApplication(configuration);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-function ErrorComponent({error}) {
+function ErrorComponent({ error }) {
   return <p>An Error Occurred: {error.message}</p>;
 }
 
@@ -32,20 +37,22 @@ function LoadingComponent() {
 }
 
 const authRequest = {
-  scopes: ["api://aaa69109-96f8-4597-b27c-335a6c506098/access_as_user"]
+  scopes: ["api://aaa69109-96f8-4597-b27c-335a6c506098/access_as_user"],
 };
 
 root.render(
   <React.StrictMode>
     <MsalProvider instance={pca}>
-       <MsalAuthenticationTemplate 
-            interactionType={InteractionType.Redirect} 
-            authenticationRequest={authRequest}
-            errorComponent={ErrorComponent} 
-            loadingComponent={LoadingComponent}
-        >
-             <App />
-        </MsalAuthenticationTemplate>
+      <MsalAuthenticationTemplate
+        interactionType={InteractionType.Redirect}
+        authenticationRequest={authRequest}
+        errorComponent={ErrorComponent}
+        loadingComponent={LoadingComponent}
+      >
+        <VirtualMachineProvider>
+          <App />
+        </VirtualMachineProvider>
+      </MsalAuthenticationTemplate>
       <UnauthenticatedTemplate>
         <p>You are not logged in</p>
       </UnauthenticatedTemplate>

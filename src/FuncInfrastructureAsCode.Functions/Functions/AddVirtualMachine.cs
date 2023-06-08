@@ -5,7 +5,6 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using funcInfrastructureAsCode.Functions.DbModels;
 using funcInfrastructureAsCode.Functions.Commands;
-using System;
 using Azure.Data.Tables;
 using funcInfrastructureAsCode.Functions.Services;
 
