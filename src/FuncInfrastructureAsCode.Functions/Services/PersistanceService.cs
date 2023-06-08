@@ -19,15 +19,15 @@ namespace funcInfrastructureAsCode.Functions.Services
             _logger = logger;
         }
 
-         public async Task<T> CreateIfNotExist<T>(
-            IAsyncCollector<T> tableCollector,
-            TableClient tableClient,
-            CreateVirtualMachineCommand command,
-            Func<T, bool> find)
-            where T : class,
-                      IMappedEntity<T>,
-                      ITableEntity,
-                      new()
+        public async Task<T> CreateIfNotExist<T>(
+           IAsyncCollector<T> tableCollector,
+           TableClient tableClient,
+           CreateVirtualMachineCommand command,
+           Func<T, bool> find)
+           where T : class,
+                     IMappedEntity<T>,
+                     ITableEntity,
+                     new()
         {
             var entities = tableClient
                 .Query<T>()
@@ -45,16 +45,26 @@ namespace funcInfrastructureAsCode.Functions.Services
             {
                 var entity = (T)Activator
                     .CreateInstance(
-                        typeof(T),
-                        new object { });
-                
+                        typeof(T));
+
+                _logger
+                    .LogInformation(
+                        $"creating entity {typeof(T).Name}");
+
                 entity
                     .Map(
                         command);
 
+                _logger.LogInformation(
+                    $"adding entity {typeof(T).Name}");
+
                 await tableCollector
                     .AddAsync(
                         entity);
+
+                _logger
+                    .LogInformation(
+                        $"entity {typeof(T).Name} added");
 
                 return entity;
             }

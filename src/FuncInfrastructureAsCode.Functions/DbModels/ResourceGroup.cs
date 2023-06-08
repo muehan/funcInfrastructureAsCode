@@ -12,6 +12,9 @@ namespace funcInfrastructureAsCode.Functions.DbModels
          : ITableEntity,
            IMappedEntity<ResourceGroup>
     {
+        public ResourceGroup()
+        { }
+
         public string Name { get; set; }
         public string LocalName { get; set; }
         public string Location { get; set; }
