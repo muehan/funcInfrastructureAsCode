@@ -71,6 +71,13 @@ const RequestVirtualMachine = () => {
 
     postData();
 
+    if(error) {
+      alert(error);
+    }
+    else {
+      alert(response);
+    }
+
     event.preventDefault();
   };
 
