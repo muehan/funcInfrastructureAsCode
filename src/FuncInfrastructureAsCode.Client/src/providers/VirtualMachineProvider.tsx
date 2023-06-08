@@ -20,7 +20,21 @@ interface VirtualMachineOutput {
   setVirtualNetworkName: (value: string) => void;
   setVirtualNetworkAddessSpace: (value: string) => void;
   setSubnetName: (value: string) => void;
-  setSubnetAndressPrefixes: (value: string) => void;
+  setSubnetAddressPrefixes: (value: string) => void;
+  setNetworkInterfaceName: (value: string) => void;
+  setNetworkInterfaceIpConfiguratioName: (value: string) => void;
+  setIpConfiguratioPrivateIpAddressAllocation: (value: string) => void;
+  setVirtualMachineName: (value: string) => void;
+  setVirtualMachineAdminUsername: (value: string) => void;
+  setVirtualMachineSize: (value: string) => void;
+  setVirtualMachineAdminSshKeyUsername: (value: string) => void;
+  setVirtualMachineAdminSshKeyPublicKey: (value: string) => void;
+  setVirtualMachineOsDiskCachine: (value: string) => void;
+  setVirtualMachineOsDiskStorageAccountType: (value: string) => void;
+  setVirtualMachineSourceImageReferenceOffer: (value: string) => void;
+  setVirtualMachineSourceImageReferencePublisher: (value: string) => void;
+  setVirtualMachineSourceImageReferenceSku: (value: string) => void;
+  setVirtualMachineSourceImageReferenceVersion: (value: string) => void;
 }
 
 const VirtualMachineContext = createContext<VirtualMachineOutput>({
@@ -64,6 +78,7 @@ const VirtualMachineProvider = ({ children }: Props) => {
     location: "",
     resourceGroupName: "",
     ipConfiguratioName: "",
+    ipConfiguratioPrivateIpAddressAllocation: "",
   });
 
   const [virtualMachine, setVirtualMachine] = useState({
@@ -112,7 +127,7 @@ const VirtualMachineProvider = ({ children }: Props) => {
   };
 
   const handleVnAddessSpaceChange = (value: string) => {
-    setvirtualNetwork({ ...virtualNetwork, location: value });
+    setvirtualNetwork({ ...virtualNetwork, addressSpace: value });
   };
 
   const handleSnNameChange = (value: string) => {
@@ -131,6 +146,15 @@ const VirtualMachineProvider = ({ children }: Props) => {
     setNetworkInterface({
       ...networkInterface,
       ipConfiguratioName: value,
+    });
+  };
+
+  const handleNiIpConfigrationPrivateUpAddressAllocationChange = (
+    value: string
+  ) => {
+    setNetworkInterface({
+      ...networkInterface,
+      ipConfiguratioPrivateIpAddressAllocation: value,
     });
   };
 
@@ -206,9 +230,11 @@ const VirtualMachineProvider = ({ children }: Props) => {
     setVirtualNetworkName: handleVnNameChange,
     setVirtualNetworkAddessSpace: handleVnAddessSpaceChange,
     setSubnetName: handleSnNameChange,
-    setSubnetAndressPrefixes: handleAndressPrefixesChange,
+    setSubnetAddressPrefixes: handleAndressPrefixesChange,
     setNetworkInterfaceName: handleNiNameChange,
     setNetworkInterfaceIpConfiguratioName: handleNiIpConfiguratioNameChange,
+    setIpConfiguratioPrivateIpAddressAllocation:
+      handleNiIpConfigrationPrivateUpAddressAllocationChange,
     setVirtualMachineName: handleVmNameChange,
     setVirtualMachineAdminUsername: handleVmAdminUsernameChange,
     setVirtualMachineSize: handleVmSizeChange,

@@ -22,15 +22,12 @@ export const useFetch = (url) => {
           })
           .then((token) => {
             try {
-              fetch(
-                baseUrl + url,
-                {
-                  headers: {
-                    Accept: "application/json",
-                    Authorization: "Bearer " + token.accessToken,
-                  },
-                }
-              )
+              fetch(baseUrl + url, {
+                headers: {
+                  Accept: "application/json",
+                  Authorization: "Bearer " + token.accessToken,
+                },
+              })
                 .then((response) => {
                   return response.json();
                 })

@@ -11,6 +11,7 @@ const FormNetworkInterface = () => {
     networkInterface,
     setNetworkInterfaceName,
     setNetworkInterfaceIpConfiguratioName,
+    setIpConfiguratioPrivateIpAddressAllocation
   } = useVirtualMachine();
 
   const handleNiNameChange = (event) => {
@@ -19,6 +20,10 @@ const FormNetworkInterface = () => {
 
   const handleNiIpConfiguratioNameChange = (event) => {
     setNetworkInterfaceIpConfiguratioName(event.target.value);
+  };
+
+  const handleNiIpConfiguratioPrivateIpAddressAllocation = (event) => {
+    setIpConfiguratioPrivateIpAddressAllocation(event.target.value);
   };
 
   return (
@@ -39,13 +44,25 @@ const FormNetworkInterface = () => {
         </Col>
 
         <Col sm={4}>
-          <Form.Group className="mb-3" controlId="form.ni.name">
+          <Form.Group className="mb-3" controlId="form.ni.ipconfigurationname">
             <Form.Label>IpConfiguratioName</Form.Label>
             <Form.Control
               type="text"
               placeholder="IpConfiguratioName"
               value={networkInterface.ipConfiguratioName}
               onChange={handleNiIpConfiguratioNameChange}
+            />
+          </Form.Group>
+        </Col>
+
+        <Col sm={4}>
+          <Form.Group className="mb-3" controlId="form.ni.ipconfiguratioprivateipaddressallocation">
+            <Form.Label>IpConfiguratioPrivateIpAddressAllocation</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="IpConfiguratioPrivateIpAddressAllocation"
+              value={networkInterface.ipConfiguratioPrivateIpAddressAllocation}
+              onChange={handleNiIpConfiguratioPrivateIpAddressAllocation}
             />
           </Form.Group>
         </Col>

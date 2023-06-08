@@ -26,6 +26,7 @@ export interface NetworkInterface {
   location: string;
   resourceGroupName: string;
   ipConfiguratioName: string;
+  ipConfiguratioPrivateIpAddressAllocation: string;
 }
 
 export interface VirtualMachine {
