@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -7,13 +8,14 @@ using funcInfrastructureAsCode.Functions.DbModels;
 using funcInfrastructureAsCode.Functions.Commands;
 using Azure.Data.Tables;
 using funcInfrastructureAsCode.Functions.Services;
+using System.Linq;
 
 namespace funcInfrastructureAsCode.Functions.Functions
 {
     public static class AddVirtualMachine
     {
         [FunctionName("AddVirtualMachine")]
-        [return: Queue("terraformTrigger", Connection = "AzureWebJobsStorage")]
+        // [return: Queue("terraformTrigger", Connection = "AzureWebJobsStorage")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] CreateVirtualMachineCommand command,
             [Table("RecourceGroup", Connection = "AzureWebJobsStorage")] IAsyncCollector<ResourceGroup> resourceGroupTable,
@@ -26,9 +28,21 @@ namespace funcInfrastructureAsCode.Functions.Functions
             [Table("VirtualNetwork", Connection = "AzureWebJobsStorage")] TableClient virtualNetworkQuery,
             [Table("VirtualMachine", Connection = "AzureWebJobsStorage")] IAsyncCollector<VirtualMachine> virtualMachineTable,
             [Table("VirtualMachine", Connection = "AzureWebJobsStorage")] TableClient virtualMachineQuery,
+            [Queue("terraformTrigger", Connection = "AzureWebJobsStorage")] IAsyncCollector<string> terraformTriggerQueue,
             ILogger log)
         {
             log.LogInformation("AddVirtualMachine trigger");
+
+            var errors = command.Validate();
+
+            if (errors.Any())
+            {
+                return new BadRequestObjectResult(
+                    String.Join(
+                        ", ",
+                        errors)
+                );
+            }
 
             var resourcePersistanceService = new PersistanceService(log);
 
@@ -67,6 +81,10 @@ namespace funcInfrastructureAsCode.Functions.Functions
                     virtualMachineQuery,
                     command,
                     (e) => e.Name == command.VirtualMachine.Name);
+
+            await terraformTriggerQueue
+                .AddAsync(
+                    "terraformTrigger");
 
             return new OkObjectResult(new
             {

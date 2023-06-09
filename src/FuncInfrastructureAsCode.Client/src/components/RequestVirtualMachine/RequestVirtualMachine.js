@@ -1,5 +1,6 @@
 import "./RequestVirtualMachine.css";
 import React from "react";
+import Toast from "react-bootstrap/Toast";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
@@ -15,8 +16,9 @@ const RequestVirtualMachine = () => {
   const { instance, accounts } = useMsal();
   const account = useAccount(accounts[0] || {});
 
-  const [response, setResponse] = React.useState({});
+  // const [response, setResponse] = React.useState({});
   const [error, setError] = React.useState({});
+  const [showError, setShowError] = React.useState(false);
 
   var baseUrl = process.env.REACT_APP_FUNCTION_API;
 
@@ -56,14 +58,30 @@ const RequestVirtualMachine = () => {
                 },
                 body: JSON.stringify(data),
               })
-                .then((response) => {
-                  return response.json();
+                .then((resp) => {
+                  if (!resp.ok) {
+                    let error = new Error("response was not ok");
+                    error.response = resp;
+                    error.status = resp.status;
+                    throw error;
+                  }
+                  return resp;
                 })
-                .then((data) => {
-                  setResponse(data);
+                .then((resp) => {
+                  return resp.json();
+                })
+                .then((json) => {
+                  alert("Virtual Machine Requested");
+                })
+                .catch((error) => {
+                  error.response.text().then((text) => {
+                    setError(text);
+                    setShowError(true);
+                  });
                 });
             } catch (error) {
               setError(error);
+              setShowError(true);
             }
           });
       }
@@ -71,18 +89,28 @@ const RequestVirtualMachine = () => {
 
     postData();
 
-    if(error) {
-      alert(error);
-    }
-    else {
-      alert(response);
-    }
-
     event.preventDefault();
   };
 
   return (
     <Container fluid>
+      <h1>Request Virtual Machine</h1>
+
+      <Toast
+        className="d-inline-block m-1 float-right position-fixed top-0 end-0"
+        bg="danger"
+        show={showError}
+        onClose={() => setShowError(false)}
+        autohide={true}
+        delay={5000}
+      >
+        <Toast.Header>
+          <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+          <strong className="me-auto">Error</strong>
+        </Toast.Header>
+        <Toast.Body>{error}</Toast.Body>
+      </Toast>
+
       <Form onSubmit={handleSubmit}>
         <FormResourceGroup />
         <hr />
