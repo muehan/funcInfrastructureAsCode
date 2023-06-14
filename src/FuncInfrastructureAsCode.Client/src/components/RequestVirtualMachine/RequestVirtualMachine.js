@@ -11,6 +11,7 @@ import FormNetworkInterface from "../FormNetworkInterface/FormNetworkInterface";
 import { useVirtualMachine } from "../../providers/VirtualMachineProvider";
 import FormVirtualMachine from "../FormVirtualMachine/FormVirtualMachine";
 import { useMsal, useAccount } from "@azure/msal-react";
+import FormRequester from "../FormRequester/FormRequester";
 
 const RequestVirtualMachine = () => {
   const { instance, accounts } = useMsal();
@@ -23,6 +24,7 @@ const RequestVirtualMachine = () => {
   var baseUrl = process.env.REACT_APP_FUNCTION_API;
 
   const {
+    infrastructureRequest,
     resourceGroup,
     virtualNetwork,
     subnet,
@@ -32,6 +34,7 @@ const RequestVirtualMachine = () => {
 
   const handleSubmit = (event) => {
     var data = {
+      infrastructureRequest: infrastructureRequest,
       resourceGroup: resourceGroup,
       virtualNetwork: virtualNetwork,
       subnet: subnet,
@@ -112,6 +115,8 @@ const RequestVirtualMachine = () => {
       </Toast>
 
       <Form onSubmit={handleSubmit}>
+        <FormRequester />
+        <hr />
         <FormResourceGroup />
         <hr />
         <FormVirtualNetwork />

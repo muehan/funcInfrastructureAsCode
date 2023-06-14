@@ -1,15 +1,25 @@
+using System;
 using System.Collections.Generic;
 using funcInfrastructureAsCode.Functions.Models;
+using Newtonsoft.Json;
 
 namespace funcInfrastructureAsCode.Functions.Commands
 {
     public class CreateVirtualMachineCommand
     {
+        [JsonIgnore]
+        public Guid? Id { get; set; } = null;
+        public InfrastructureRequestCreateModel InfrastructureRequest { get; set; }
         public ResourceGroupViewModel ResourceGroup { get; set; }
         public VirtualNetworkViewModel VirtualNetwork { get; set; }
         public SubnetViewModel Subnet { get; set; }
         public NetworkInterfaceViewModel NetworkInterface { get; set; }
         public VirtualMachineViewModel VirtualMachine { get; set; }
+
+        public CreateVirtualMachineCommand()
+        {
+            Id = Guid.NewGuid();
+        }
 
         internal List<string> Validate()
         {

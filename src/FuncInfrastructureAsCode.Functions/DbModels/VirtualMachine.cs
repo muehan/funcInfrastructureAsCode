@@ -27,6 +27,7 @@ namespace funcInfrastructureAsCode.Functions.DbModels
         public string SourceImageReferencePublisher { get; set; }
         public string SourceImageReferenceSku { get; set; }
         public string SourceImageReferenceVersion { get; set; }
+        public Guid InfrastructureRequestId { get; set; }
         public string PartitionKey { get; set; }
         public string RowKey { get; set; }
         public DateTimeOffset? Timestamp { get; set; }
@@ -132,6 +133,7 @@ namespace funcInfrastructureAsCode.Functions.DbModels
             SourceImageReferenceSku = command.VirtualMachine.SourceImageReferenceSku;
             SourceImageReferenceVersion = command.VirtualMachine.SourceImageReferenceVersion;
             PartitionKey = command.ResourceGroup.Name;
+            InfrastructureRequestId = command.Id.Value;
         }
     }
 }

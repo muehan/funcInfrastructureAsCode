@@ -11,6 +11,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import VirtualNetwork from "./components/VirtualNetwork/VirtualNetwork";
 import VirtualMachines from "./components/VirtualMachines/VirtualMachines";
 import RequestVirtualMachine from "./components/RequestVirtualMachine/RequestVirtualMachine";
+import InfrastructureRequests from "./components/InfrastructureRequests/InfrastructureRequests";
 
 function App() {
   const { instance, accounts, inProgress } = useMsal();
@@ -49,6 +50,9 @@ function App() {
               </Route>
               <Route path="/virtualMachines">
                 <VirtualMachines />
+              </Route>
+              <Route path="/request/requests">
+                <InfrastructureRequests />
               </Route>
               <Route path="/request/virtualMachines">
                 <RequestVirtualMachine />

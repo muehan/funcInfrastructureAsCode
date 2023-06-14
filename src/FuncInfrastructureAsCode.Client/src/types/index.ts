@@ -1,3 +1,11 @@
+export interface InfrastructureRequest {
+  id: string | null;
+  requesterName: string;
+  requesterEmail: string;
+  requestStatus: string;
+  createdAt: Date;
+}
+
 export interface ResourceGroup {
   name: string;
   localName: string;

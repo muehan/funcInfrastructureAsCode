@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using System.Text;
 using System.Security.Claims;
 
-namespace FuncInfrastructureAsCode.Functions
+namespace FuncInfrastructureAsCode.Functions.Functions
 {
     public static class Authtest
     {

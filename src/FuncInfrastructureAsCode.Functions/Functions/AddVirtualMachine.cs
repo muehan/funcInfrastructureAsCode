@@ -18,6 +18,7 @@ namespace funcInfrastructureAsCode.Functions.Functions
         // [return: Queue("terraformTrigger", Connection = "AzureWebJobsStorage")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] CreateVirtualMachineCommand command,
+            [Table("InfrastructureRequest", Connection = "AzureWebJobsStorage")] IAsyncCollector<InfrastructureRequest> InfrastructureRequest,
             [Table("RecourceGroup", Connection = "AzureWebJobsStorage")] IAsyncCollector<ResourceGroup> resourceGroupTable,
             [Table("RecourceGroup", Connection = "AzureWebJobsStorage")] TableClient resourceGroupQuery,
             [Table("Subnet", Connection = "AzureWebJobsStorage")] IAsyncCollector<Subnet> subnetTable,
@@ -43,6 +44,19 @@ namespace funcInfrastructureAsCode.Functions.Functions
                         errors)
                 );
             }
+
+            await InfrastructureRequest
+                .AddAsync(
+                    new InfrastructureRequest
+                    {
+                        Id = command.Id.Value,
+                        RequesterName = command.InfrastructureRequest.RequesterName,
+                        RequesterEmail = command.InfrastructureRequest.RequesterEmail,
+                        RequestStatus = "Pending",
+                        CreatedAt = DateTime.UtcNow,
+                        RowKey = Guid.NewGuid().ToString("n"),
+                        PartitionKey = command.InfrastructureRequest.RequesterName,
+                    });
 
             var resourcePersistanceService = new PersistanceService(log);
 

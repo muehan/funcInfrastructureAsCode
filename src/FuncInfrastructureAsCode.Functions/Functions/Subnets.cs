@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using funcInfrastructureAsCode.Functions.DbModels;
 using funcInfrastructureAsCode.Functions.Models;
 
-namespace FuncInfrastructureAsCode.Functions
+namespace FuncInfrastructureAsCode.Functions.Functions
 {
     public static class Subnets
     {

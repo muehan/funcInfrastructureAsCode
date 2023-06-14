@@ -10,7 +10,7 @@ using funcInfrastructureAsCode.Functions.DbModels;
 using funcInfrastructureAsCode.Functions.Models;
 using System.Collections.Generic;
 
-namespace FuncInfrastructureAsCode.Functions
+namespace FuncInfrastructureAsCode.Functions.Functions
 {
     public static class ResourceGroups
     {

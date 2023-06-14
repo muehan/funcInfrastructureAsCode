@@ -1,6 +1,7 @@
 import React from "react";
 import { createContext, useContext, useState } from "react";
 import {
+  InfrastructureRequest,
   NetworkInterface,
   ResourceGroup,
   Subnet,
@@ -9,11 +10,14 @@ import {
 } from "../types";
 
 interface VirtualMachineOutput {
+  infrastructureRequest: InfrastructureRequest;
   resourceGroup: ResourceGroup;
   virtualNetwork: VirtualNetwork;
   subnet: Subnet;
   networkInterface: NetworkInterface;
   virtualMachine: VirtualMachine;
+  setRequesterName: (value: string) => void;
+  setRequesterEmail: (value: string) => void;
   setResourceGroupName: (value: string) => void;
   setResourceGroupLocalName: (value: string) => void;
   setResourceGroupLocation: (value: string) => void;
@@ -38,6 +42,7 @@ interface VirtualMachineOutput {
 }
 
 const VirtualMachineContext = createContext<VirtualMachineOutput>({
+  infrastructureRequest: {} as InfrastructureRequest,
   resourceGroup: {} as ResourceGroup,
   virtualNetwork: {} as VirtualNetwork,
   subnet: {} as Subnet,
@@ -50,6 +55,15 @@ type Props = {
 };
 
 const VirtualMachineProvider = ({ children }: Props) => {
+  const [infrastructureRequest, setInfrastructureRequest] =
+    useState<InfrastructureRequest>({
+      id: null,
+      requesterName: "",
+      requesterEmail: "",
+      requestStatus: "",
+      createdAt: new Date(),
+    });
+
   const [resourceGroup, setResourceGroup] = useState<ResourceGroup>({
     name: "",
     localName: "",
@@ -97,6 +111,20 @@ const VirtualMachineProvider = ({ children }: Props) => {
     sourceImageReferenceSku: "",
     sourceImageReferenceVersion: "",
   });
+
+  const handleRequestNameChange = (value: string) => {
+    setInfrastructureRequest({
+      ...infrastructureRequest,
+      requesterName: value,
+    });
+  };
+
+  const handleRequestEmailChange = (value: string) => {
+    setInfrastructureRequest({
+      ...infrastructureRequest,
+      requesterEmail: value,
+    });
+  };
 
   const handleResourceGroupNameChange = (value: string) => {
     setResourceGroup({ ...resourceGroup, name: value });
@@ -224,6 +252,8 @@ const VirtualMachineProvider = ({ children }: Props) => {
   };
 
   const actions = {
+    setRequesterName: handleRequestNameChange,
+    setRequesterEmail: handleRequestEmailChange,
     setResourceGroupName: handleResourceGroupNameChange,
     setResourceGroupLocalName: handleRgLocalNameChange,
     setResourceGroupLocation: handleRgLocationChange,
@@ -256,6 +286,7 @@ const VirtualMachineProvider = ({ children }: Props) => {
   return (
     <VirtualMachineContext.Provider
       value={{
+        infrastructureRequest,
         resourceGroup,
         virtualNetwork,
         subnet,

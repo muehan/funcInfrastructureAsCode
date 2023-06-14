@@ -50,11 +50,12 @@ const AppNavbar = () => {
               </NavDropdown.Item>
             </NavDropdown>
 
-            <NavDropdown title="Requests" id="basic-nav-dropdown">
-              <NavDropdown.Item as={Link} to="/request/virtualMachines">
+            {/* <NavDropdown title="Requests" id="basic-nav-dropdown">
+              <NavDropdown.Item as={Link} to="/request/requests">
                 VirtualMachine
               </NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
+            <Nav.Link as={Link} to="/request/requests">Requests</Nav.Link>
           </Nav>
 
           <Form className="d-flex">
