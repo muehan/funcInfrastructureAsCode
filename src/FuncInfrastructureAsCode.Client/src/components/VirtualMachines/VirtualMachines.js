@@ -31,6 +31,7 @@ const VirtualMachines = () => {
             <th>SourceImageReferencePublisher</th>
             <th>SourceImageReferenceSku</th>
             <th>SourceImageReferenceVersion</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -49,6 +50,7 @@ const VirtualMachines = () => {
                   <td>{row.sourceImageReferencePublisher}</td>
                   <td>{row.sourceImageReferenceSku}</td>
                   <td>{row.sourceImageReferenceVersion}</td>
+                  <td>{row.status}</td>
                 </tr>
               );
             })}

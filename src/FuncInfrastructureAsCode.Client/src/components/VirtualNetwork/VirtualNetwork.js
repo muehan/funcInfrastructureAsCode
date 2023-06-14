@@ -24,6 +24,7 @@ const VirtualNetwork = () => {
             <th>Location</th>
             <th>ResourceGroupName</th>
             <th>AddressSpace</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -36,6 +37,7 @@ const VirtualNetwork = () => {
                   <td>{row.location}</td>
                   <td>{row.resourceGroupName}</td>
                   <td>{row.addressSpace}</td>
+                  <td>{row.status}</td>
                 </tr>
               );
             })}

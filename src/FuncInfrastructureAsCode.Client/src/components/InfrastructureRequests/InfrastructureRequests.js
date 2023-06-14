@@ -21,7 +21,7 @@ const InfrastructureRequests = () => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Id</th>
+            <th>IRowKey</th>
             <th>RequesterName</th>
             <th>RequesterEmail</th>
             <th>RequestStatus</th>
@@ -32,8 +32,8 @@ const InfrastructureRequests = () => {
           {data &&
             data.map((row) => {
               return (
-                <tr key={row.id}>
-                  <td>{row.id}</td>
+                <tr key={row.rowKey}>
+                  <td>{row.rowKey}</td>
                   <td>{row.requesterName}</td>
                   <td>{row.requesterEmail}</td>
                   <td>{row.requestStatus}</td>

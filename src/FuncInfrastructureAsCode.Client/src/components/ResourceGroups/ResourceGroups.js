@@ -21,6 +21,7 @@ const ResourceGroups = () => {
             <th>Name</th>
             <th>Localname</th>
             <th>Location</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -31,6 +32,7 @@ const ResourceGroups = () => {
                   <td>{row.name}</td>
                   <td>{row.localName}</td>
                   <td>{row.location}</td>
+                  <td>{row.status}</td>
                 </tr>
               );
             })}
