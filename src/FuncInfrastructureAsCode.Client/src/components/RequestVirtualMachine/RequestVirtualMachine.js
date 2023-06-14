@@ -96,7 +96,7 @@ const RequestVirtualMachine = () => {
   };
 
   return (
-    <Container fluid>
+    <Container fluid style={{marginBottom: '20px'}}>
       <h1>Request Virtual Machine</h1>
 
       <Toast

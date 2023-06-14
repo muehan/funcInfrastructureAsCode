@@ -2,6 +2,7 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 import { useFetch } from '../../apis/FetchData';
 import './InfrastructureRequests.css';
+import { Button } from 'react-bootstrap';
 
 const InfrastructureRequests = () => {
 
@@ -16,6 +17,7 @@ const InfrastructureRequests = () => {
   return (
     <div>
       <h3>Requests</h3>
+      <Button style={{marginBottom: '5px'}} variant="primary" href="/request/virtualMachines">Request VM</Button>
       <Table striped bordered hover>
         <thead>
           <tr>
