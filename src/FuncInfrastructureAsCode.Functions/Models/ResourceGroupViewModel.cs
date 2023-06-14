@@ -8,6 +8,7 @@ namespace funcInfrastructureAsCode.Functions.Models
         public string Name { get; set; }
         public string LocalName { get; set; }
         public string Location { get; set; }
+        public string Status { get; set; }
 
         internal void Validate(
             List<string> errors)

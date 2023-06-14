@@ -19,7 +19,8 @@ namespace funcInfrastructureAsCode.Functions.DbModels
         public string IpConfiguratioName { get; set; }
         public string IpConfiguratioPrivateIpAddressAllocation { get; set; }
         public string IpConfiguratioSubnetId { get; set; }
-        public Guid InfrastructureRequestId { get; set; }
+        public string InfrastructureRequestId { get; set; }
+        public string Status { get; set; }
         public string PartitionKey { get; set; }
         public string RowKey { get; set; }
         public DateTimeOffset? Timestamp { get; set; }
@@ -81,7 +82,8 @@ namespace funcInfrastructureAsCode.Functions.DbModels
             IpConfiguratioPrivateIpAddressAllocation = command.NetworkInterface.IpConfiguratioPrivateIpAddressAllocation;
             IpConfiguratioSubnetId = $"${{azurerm_subnet.{command.Subnet.LocalName}.id}}";
             PartitionKey = command.ResourceGroup.Name;
-            InfrastructureRequestId = command.Id.Value;
+            InfrastructureRequestId = $"{command.Id.Value}";
+            Status = "Pending";
         }
     }
 }

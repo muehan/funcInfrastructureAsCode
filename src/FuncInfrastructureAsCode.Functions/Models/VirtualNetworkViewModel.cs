@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace funcInfrastructureAsCode.Functions.Models
@@ -10,6 +9,7 @@ namespace funcInfrastructureAsCode.Functions.Models
         public string Location { get; set; }
         public string ResourceGroupName { get; set; }
         public string AddressSpace { get; set; }
+        public string Status { get; set; }
 
         internal void Validate(
             List<string> errors)

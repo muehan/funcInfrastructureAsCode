@@ -11,6 +11,7 @@ namespace funcInfrastructureAsCode.Functions.Models
         public string ResourceGroupName { get; set; }
         public string IpConfiguratioName { get; set; }
         public string IpConfiguratioPrivateIpAddressAllocation { get; set; }
+        public string Status { get; set; }
 
         internal void Validate(List<string> errors)
         {

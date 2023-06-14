@@ -17,7 +17,8 @@ namespace funcInfrastructureAsCode.Functions.DbModels
         public string Location { get; set; }
         public string ResourceGroupName { get; set; }
         public string AddressSpace { get; set; }
-        public Guid InfrastructureRequestId { get; set; }
+        public string InfrastructureRequestId { get; set; }
+        public string Status { get; set; }
         public string PartitionKey { get; set; }
         public string RowKey { get; set; }
         public DateTimeOffset? Timestamp { get; set; }
@@ -68,7 +69,8 @@ namespace funcInfrastructureAsCode.Functions.DbModels
             ResourceGroupName = $"${{azurerm_resource_group.{command.ResourceGroup.LocalName}.name}}";
             AddressSpace = command.VirtualNetwork.AddressSpace;
             PartitionKey = command.ResourceGroup.Name;
-            InfrastructureRequestId = command.Id.Value;
+            InfrastructureRequestId = $"{command.Id.Value}";
+            Status = "Pending";
         }
     }
 }

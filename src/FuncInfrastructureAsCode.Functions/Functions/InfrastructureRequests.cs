@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -15,12 +14,12 @@ namespace FuncInfrastructureAsCode.Functions.Functions
     public static class InfrastructureRequests
     {
         [FunctionName("InfrastructureRequests")]
-        public static async Task<IActionResult> Run(
+        public static IActionResult Get(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
-            [Table("InfrastructureRequest", Connection = "AzureWebJobsStorage")] TableClient subnetTable,
+            [Table("InfrastructureRequest", Connection = "AzureWebJobsStorage")] TableClient requestTable,
             ILogger log)
         {
-            var requests = subnetTable
+            var requests = requestTable
                 .Query<InfrastructureRequest>()
                 .ToList();
 
@@ -32,7 +31,7 @@ namespace FuncInfrastructureAsCode.Functions.Functions
                     .Add(
                         new InfrastructureRequestViewModel
                         {
-                            Id = request.Id,
+                            RowKey = request.RowKey,
                             RequesterName = request.RequesterName,
                             RequesterEmail = request.RequesterEmail,
                             RequestStatus = request.RequestStatus,
@@ -42,6 +41,24 @@ namespace FuncInfrastructureAsCode.Functions.Functions
             });
 
             return new OkObjectResult(results);
+        }
+
+
+        [FunctionName("InfrastructureRequestsById")]
+        public static IActionResult GetById(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "InfrastructureRequests/{partitionkey}/{id}")] HttpRequest req,
+            [Table("InfrastructureRequest", "{partitionkey}", "{id}", Connection = "AzureWebJobsStorage")] InfrastructureRequest requestEntity,
+            ILogger log,
+            string id)
+        {
+            return new OkObjectResult(new InfrastructureRequestViewModel
+            {
+                RowKey = requestEntity.RowKey,
+                RequesterName = requestEntity.RequesterName,
+                RequesterEmail = requestEntity.RequesterEmail,
+                RequestStatus = requestEntity.RequestStatus,
+                CreatedAt = requestEntity.CreatedAt
+            });
         }
     }
 }

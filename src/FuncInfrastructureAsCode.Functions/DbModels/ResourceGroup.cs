@@ -18,7 +18,8 @@ namespace funcInfrastructureAsCode.Functions.DbModels
         public string Name { get; set; }
         public string LocalName { get; set; }
         public string Location { get; set; }
-        public Guid InfrastructureRequestId { get; set; }
+        public string InfrastructureRequestId { get; set; }
+        public string Status { get; set; }
         public string PartitionKey { get; set; }
         public string RowKey { get; set; }
         public DateTimeOffset? Timestamp { get; set; }
@@ -51,7 +52,8 @@ namespace funcInfrastructureAsCode.Functions.DbModels
             LocalName = command.ResourceGroup.LocalName;
             Location = command.ResourceGroup.Location;
             PartitionKey = command.ResourceGroup.Name;
-            InfrastructureRequestId = command.Id.Value;
+            InfrastructureRequestId = $"{command.Id.Value}";
+            Status = "Pending";
         }
     }
 }

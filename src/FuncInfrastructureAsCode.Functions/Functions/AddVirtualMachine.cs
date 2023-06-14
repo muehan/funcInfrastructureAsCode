@@ -49,12 +49,11 @@ namespace funcInfrastructureAsCode.Functions.Functions
                 .AddAsync(
                     new InfrastructureRequest
                     {
-                        Id = command.Id.Value,
                         RequesterName = command.InfrastructureRequest.RequesterName,
                         RequesterEmail = command.InfrastructureRequest.RequesterEmail,
                         RequestStatus = "Pending",
                         CreatedAt = DateTime.UtcNow,
-                        RowKey = Guid.NewGuid().ToString("n"),
+                        RowKey = $"{command.Id.Value}",
                         PartitionKey = command.InfrastructureRequest.RequesterName,
                     });
 
@@ -98,7 +97,7 @@ namespace funcInfrastructureAsCode.Functions.Functions
 
             await terraformTriggerQueue
                 .AddAsync(
-                    "terraformTrigger");
+                    $"{command.Id.Value}");
 
             return new OkObjectResult(new
             {

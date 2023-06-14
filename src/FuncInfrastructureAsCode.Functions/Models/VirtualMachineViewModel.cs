@@ -19,6 +19,7 @@ namespace funcInfrastructureAsCode.Functions.Models
         public string SourceImageReferencePublisher { get; set; }
         public string SourceImageReferenceSku { get; set; }
         public string SourceImageReferenceVersion { get; set; }
+        public string Status { get; set; }
 
         internal void Validate(List<string> errors)
         {

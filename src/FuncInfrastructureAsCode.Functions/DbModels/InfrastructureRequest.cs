@@ -7,7 +7,6 @@ namespace funcInfrastructureAsCode.Functions.DbModels
     public class InfrastructureRequest
         : ITableEntity
     {
-        public Guid Id { get; set; }
         public string RequesterName { get; set; }
         public string RequesterEmail { get; set; }
         public string RequestStatus { get; set; }

@@ -17,7 +17,8 @@ namespace funcInfrastructureAsCode.Functions.DbModels
         public string ResourceGroupName { get; set; }
         public string AddressPrefixes { get; set; }
         public string VirtualNetworkName { get; set; }
-        public Guid InfrastructureRequestId { get; set; }
+        public string InfrastructureRequestId { get; set; }
+        public string Status { get; set; }
         public string PartitionKey { get; set; }
         public string RowKey { get; set; }
         public DateTimeOffset? Timestamp { get; set; }
@@ -70,7 +71,8 @@ namespace funcInfrastructureAsCode.Functions.DbModels
             AddressPrefixes = command.Subnet.AddressPrefixes;
             VirtualNetworkName = $"${{azurerm_virtual_network.{command.VirtualNetwork.LocalName}.name}}";
             PartitionKey = command.ResourceGroup.Name;
-            InfrastructureRequestId = command.Id.Value;
+            InfrastructureRequestId = $"{command.Id.Value}";
+            Status = "Pending";
         }
     }
 }

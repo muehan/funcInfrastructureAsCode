@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -15,12 +14,14 @@ namespace FuncInfrastructureAsCode.Functions.Functions
     public static class NetworkInterfaces
     {
         [FunctionName("NetworkInterfaces")]
-                public static async Task<IActionResult> Run(
+        public static IActionResult GetNetworkInterfaces(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             [Table("NetworkInterface", Connection = "AzureWebJobsStorage")] TableClient networkInterfaceTable,
             ILogger log)
         {
-            var groups = networkInterfaceTable.Query<NetworkInterface>().ToList();
+            var groups = networkInterfaceTable
+                .Query<NetworkInterface>()
+                .ToList();
 
             var results = new List<NetworkInterfaceViewModel>();
 
@@ -28,13 +29,49 @@ namespace FuncInfrastructureAsCode.Functions.Functions
             {
                 results
                     .Add(
-                        new NetworkInterfaceViewModel {
+                        new NetworkInterfaceViewModel
+                        {
                             Name = network.Name,
                             LocalName = network.LocalName,
                             Location = network.Location,
                             ResourceGroupName = network.ResourceGroupName,
                             IpConfiguratioName = network.IpConfiguratioName,
-                            IpConfiguratioPrivateIpAddressAllocation = network.IpConfiguratioPrivateIpAddressAllocation
+                            IpConfiguratioPrivateIpAddressAllocation = network.IpConfiguratioPrivateIpAddressAllocation,
+                            Status = network.Status,
+                        }
+                    );
+            });
+
+            return new OkObjectResult(results);
+        }
+
+        [FunctionName("NetworkInterfacesByRequestId")]
+        public static IActionResult NetworkInterfacesByRequestId(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "NetworkInterfaces({rowkey})")] HttpRequest req,
+            [Table("NetworkInterface", Connection = "AzureWebJobsStorage")] TableClient networkInterfaceTable,
+            ILogger log,
+            string rowkey)
+        {
+            var groups = networkInterfaceTable
+                .Query<NetworkInterface>()
+                .Where(network => network.InfrastructureRequestId == rowkey)
+                .ToList();
+
+            var results = new List<NetworkInterfaceViewModel>();
+
+            groups.ForEach(network =>
+            {
+                results
+                    .Add(
+                        new NetworkInterfaceViewModel
+                        {
+                            Name = network.Name,
+                            LocalName = network.LocalName,
+                            Location = network.Location,
+                            ResourceGroupName = network.ResourceGroupName,
+                            IpConfiguratioName = network.IpConfiguratioName,
+                            IpConfiguratioPrivateIpAddressAllocation = network.IpConfiguratioPrivateIpAddressAllocation,
+                            Status = network.Status,
                         }
                     );
             });

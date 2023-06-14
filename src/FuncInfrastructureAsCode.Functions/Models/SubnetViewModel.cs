@@ -10,6 +10,7 @@ namespace funcInfrastructureAsCode.Functions.Models
         public string ResourceGroupName { get; set; }
         public string AddressPrefixes { get; set; }
         public string VirtualNetworkName { get; set; }
+        public string Status { get; set; }
 
         internal void Validate(
             List<string> errors)

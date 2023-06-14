@@ -5,7 +5,7 @@ namespace funcInfrastructureAsCode.Functions.Models
 {
     public class InfrastructureRequestViewModel
     {
-        public Guid Id { get; set; }
+        public string RowKey { get; set; }
         public string RequesterName { get; set; }
         public string RequesterEmail { get; set; }
         public string RequestStatus { get; set; }

@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -14,26 +13,63 @@ namespace FuncInfrastructureAsCode.Functions.Functions
 {
     public static class VirtualNetworks
     {
-        [FunctionName("VirtualNetworks")]
-        public static async Task<IActionResult> Run(
+        [FunctionName("GetVirtualNetworks")]
+        public static IActionResult GetVirtualNetworks(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             [Table("VirtualNetwork", Connection = "AzureWebJobsStorage")] TableClient virtualNetworkTable,
             ILogger log)
         {
-            var subnets = virtualNetworkTable.Query<VirtualNetwork>().ToList();
+            var networks = virtualNetworkTable
+                .Query<VirtualNetwork>()
+                .ToList();
 
             var results = new List<VirtualNetworkViewModel>();
 
-            subnets.ForEach(virtualNetwork =>
+            networks.ForEach(virtualNetwork =>
             {
                 results
                     .Add(
-                        new VirtualNetworkViewModel {
+                        new VirtualNetworkViewModel
+                        {
                             Name = virtualNetwork.Name,
                             LocalName = virtualNetwork.LocalName,
                             Location = virtualNetwork.Location,
                             ResourceGroupName = virtualNetwork.ResourceGroupName,
-                            AddressSpace = virtualNetwork.AddressSpace
+                            AddressSpace = virtualNetwork.AddressSpace,
+                            Status = virtualNetwork.Status,
+                        }
+                    );
+            });
+
+            return new OkObjectResult(results);
+        }
+
+        [FunctionName("GetVirtualNetworksByRowkey")]
+        public static IActionResult GetVirtualNetworksByRowkey(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "VirtualNetworks/{rowkey}")] HttpRequest req,
+            [Table("VirtualNetwork", Connection = "AzureWebJobsStorage")] TableClient virtualNetworkTable,
+            ILogger log,
+            string rowkey)
+        {
+            var networks = virtualNetworkTable
+                .Query<VirtualNetwork>()
+                .Where(virtualNetwork => virtualNetwork.InfrastructureRequestId == rowkey)
+                .ToList();
+
+            var results = new List<VirtualNetworkViewModel>();
+
+            networks.ForEach(virtualNetwork =>
+            {
+                results
+                    .Add(
+                        new VirtualNetworkViewModel
+                        {
+                            Name = virtualNetwork.Name,
+                            LocalName = virtualNetwork.LocalName,
+                            Location = virtualNetwork.Location,
+                            ResourceGroupName = virtualNetwork.ResourceGroupName,
+                            AddressSpace = virtualNetwork.AddressSpace,
+                            Status = virtualNetwork.Status,
                         }
                     );
             });

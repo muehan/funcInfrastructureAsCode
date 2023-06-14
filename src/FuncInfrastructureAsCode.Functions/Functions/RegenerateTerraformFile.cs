@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -11,7 +10,7 @@ namespace funcInfrastructureAsCode.Functions.Functions
     {
         [FunctionName("RegenerateTerraformFile")]
         [return: Queue("terraformTrigger", Connection = "AzureWebJobsStorage")]
-        public static async Task<IActionResult> Run(
+        public static IActionResult Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] CreateVirtualMachineCommand command,
             ILogger log)
         {
