@@ -3,8 +3,12 @@ import React from "react";
 import Table from "react-bootstrap/Table";
 import { useFetch } from "../../apis/FetchData";
 
-const NetworkInterfaces = () => {
-  const networkInterfaces = useFetch("/NetworkInterfaces");
+const NetworkInterfaces = (props) => {
+  const url = props.requestId
+    ? "/NetworkInterfaces/" + props.requestId
+    : "/NetworkInterfaces";
+
+  const networkInterfaces = useFetch(url);
 
   if (!Array.isArray(networkInterfaces.response)) {
     return <p>Loading...</p>;

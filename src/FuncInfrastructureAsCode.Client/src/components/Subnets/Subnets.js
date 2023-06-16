@@ -3,8 +3,10 @@ import "./Subnets.css";
 import Table from "react-bootstrap/Table";
 import { useFetch } from "../../apis/FetchData";
 
-const Subnets = () => {
-  const subnets = useFetch("/Subnets");
+const Subnets = (props) => {
+  const url = props.requestId ? "/Subnets/" + props.requestId : "/Subnets";
+
+  const subnets = useFetch(url);
 
   if (!Array.isArray(subnets.response)) {
     return <p>Loading...</p>;

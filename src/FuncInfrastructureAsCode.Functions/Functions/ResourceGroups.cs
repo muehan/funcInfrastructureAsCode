@@ -44,7 +44,7 @@ namespace FuncInfrastructureAsCode.Functions.Functions
 
         [FunctionName("ResourceGroupByRequestId")]
         public static IActionResult ResourceGroupByRequestId(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "ResourceGroup/{rowkey}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "ResourceGroups/{rowkey}")] HttpRequest req,
             [Table("RecourceGroup", Connection = "AzureWebJobsStorage")] TableClient resourceGroupTable,
             ILogger log,
             string rowkey)

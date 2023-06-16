@@ -15,7 +15,7 @@ namespace FuncInfrastructureAsCode.Functions.Functions
     {
         [FunctionName("GetVirtualNetworks")]
         public static IActionResult GetVirtualNetworks(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "VirtualNetworks")] HttpRequest req,
             [Table("VirtualNetwork", Connection = "AzureWebJobsStorage")] TableClient virtualNetworkTable,
             ILogger log)
         {

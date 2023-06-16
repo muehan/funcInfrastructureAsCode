@@ -1,11 +1,14 @@
-import React from 'react';
-import './VirtualNetwork.css';
+import React from "react";
+import "./VirtualNetwork.css";
 import Table from "react-bootstrap/Table";
-import { useFetch } from '../../apis/FetchData';
+import { useFetch } from "../../apis/FetchData";
 
-const VirtualNetwork = () => {
+const VirtualNetwork = (props) => {
+  const url = props.requestId
+    ? "/VirtualNetworks/" + props.requestId
+    : "/VirtualNetworks";
 
-  const subnets = useFetch("/VirtualNetworks");
+  const subnets = useFetch(url);
 
   if (!Array.isArray(subnets.response)) {
     return <p>Loading...</p>;
@@ -45,7 +48,7 @@ const VirtualNetwork = () => {
       </Table>
     </div>
   );
-}
+};
 
 VirtualNetwork.propTypes = {};
 

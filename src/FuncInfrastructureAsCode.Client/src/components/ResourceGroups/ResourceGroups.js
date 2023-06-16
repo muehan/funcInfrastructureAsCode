@@ -3,14 +3,18 @@ import React from "react";
 import Table from "react-bootstrap/Table";
 import { useFetch } from "../../apis/FetchData";
 
-const ResourceGroups = () => {
-  const resourceGroups = useFetch("/ResourceGroups");
+const ResourceGroups = (props) => {
+  const url = props.requestId
+    ? "/ResourceGroups/" + props.requestId
+    : "/ResourceGroups";
+
+  const resourceGroups = useFetch(url);
+
+  const data = resourceGroups.response;
 
   if (!Array.isArray(resourceGroups.response)) {
     return <p>Loading...</p>;
   }
-
-  const data = resourceGroups.response;
 
   return (
     <div>

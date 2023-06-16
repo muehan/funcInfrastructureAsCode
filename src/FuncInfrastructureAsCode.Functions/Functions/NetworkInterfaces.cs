@@ -47,7 +47,7 @@ namespace FuncInfrastructureAsCode.Functions.Functions
 
         [FunctionName("NetworkInterfacesByRequestId")]
         public static IActionResult NetworkInterfacesByRequestId(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "NetworkInterfaces({rowkey})")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "NetworkInterfaces/{rowkey}")] HttpRequest req,
             [Table("NetworkInterface", Connection = "AzureWebJobsStorage")] TableClient networkInterfaceTable,
             ILogger log,
             string rowkey)

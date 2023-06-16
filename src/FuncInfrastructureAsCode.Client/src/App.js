@@ -12,6 +12,7 @@ import VirtualNetwork from "./components/VirtualNetwork/VirtualNetwork";
 import VirtualMachines from "./components/VirtualMachines/VirtualMachines";
 import RequestVirtualMachine from "./components/RequestVirtualMachine/RequestVirtualMachine";
 import InfrastructureRequests from "./components/InfrastructureRequests/InfrastructureRequests";
+import InfrastructureRequest from "./components/InfrastructureRequest/InfrastructureRequest";
 
 function App() {
   const { instance, accounts, inProgress } = useMsal();
@@ -53,6 +54,9 @@ function App() {
               </Route>
               <Route path="/request/requests">
                 <InfrastructureRequests />
+              </Route>
+              <Route path="/request/details/:rowkey">
+                <InfrastructureRequest />
               </Route>
               <Route path="/request/virtualMachines">
                 <RequestVirtualMachine />

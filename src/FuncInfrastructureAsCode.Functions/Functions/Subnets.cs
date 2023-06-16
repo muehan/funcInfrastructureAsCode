@@ -15,7 +15,7 @@ namespace FuncInfrastructureAsCode.Functions.Functions
     {
         [FunctionName("GetSubnets")]
         public static IActionResult GetSubnets(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Subnets")] HttpRequest req,
             [Table("Subnet", Connection = "AzureWebJobsStorage")] TableClient subnetTable,
             ILogger log)
         {
@@ -47,7 +47,7 @@ namespace FuncInfrastructureAsCode.Functions.Functions
 
         [FunctionName("GetSubnetsByRowkey")]
         public static IActionResult GetSubnetsByRowkey(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Subnet/{rowkey}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Subnets/{rowkey}")] HttpRequest req,
             [Table("Subnet", Connection = "AzureWebJobsStorage")] TableClient subnetTable,
             ILogger log,
             string rowkey)

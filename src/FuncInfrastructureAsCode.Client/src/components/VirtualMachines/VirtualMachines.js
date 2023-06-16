@@ -3,10 +3,12 @@ import "./VirtualMachines.css";
 import Table from "react-bootstrap/Table";
 import { useFetch } from "../../apis/FetchData";
 
-const VirtualMachines = () => {
-  const virtualMachines = useFetch(
-    "/VirtualMachines"
-  );
+const VirtualMachines = (props) => {
+  const url = props.requestId
+    ? "/VirtualMachines/" + props.requestId
+    : "/VirtualMachines";
+
+  const virtualMachines = useFetch(url);
 
   if (!Array.isArray(virtualMachines.response)) {
     return <p>Loading...</p>;
