@@ -18,7 +18,7 @@ const VirtualMachines = (props) => {
 
   return (
     <div>
-      <h3>NetworkInterfaces</h3>
+      <h3>Virtual Machines</h3>
       <Table striped bordered hover>
         <thead>
           <tr>

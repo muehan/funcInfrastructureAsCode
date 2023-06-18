@@ -25,24 +25,69 @@ namespace funcInfrastructureAsCode.Functions.Functions
             [Table("VirtualMachine", Connection = "AzureWebJobsStorage")] TableClient virtualMachineTable,
             ILogger log)
         {
+            log.LogInformation($"GenerateTerraform trigger with {myQueueItem}");
+
             var github = new GithubInterface();
             var git = new GitInterface();
 
             log.LogInformation($"Generate new Terraform File");
             var random = new Random();
 
-            var tempPath = Path.GetTempPath();
-            var repoPath = Path.Combine(tempPath, $"code{random.Next(1000, 9999)}");
+            var tempPath = Path
+                .GetTempPath();
 
-            var repoUrl = GetEnvironmentVariable("github_repo");
+            var repoPath = Path
+                .Combine(
+                    tempPath,
+                    $"code{myQueueItem}");
 
-            Repository.Clone(repoUrl, repoPath);
+            var repoUrl = GetEnvironmentVariable(
+                "github_repo");
 
-            var resourceGroupList = resourceGroupTable.Query<ResourceGroup>().ToList();
-            var virtualnetworkList = virtualNetworkTable.Query<VirtualNetwork>().ToList();
-            var subnetList = subnetTable.Query<Subnet>().ToList();
-            var networkInterfaceList = netowrkInterfaceTable.Query<NetworkInterface>().ToList();
-            var virtualMachineList = virtualMachineTable.Query<VirtualMachine>().ToList();
+            Repository
+                .Clone(
+                    repoUrl,
+                    repoPath);
+
+            var resourceGroupList = resourceGroupTable
+                .Query<ResourceGroup>()
+                .Where(
+                    x =>
+                    x.Status == "Active" ||
+                    x.InfrastructureRequestId == myQueueItem)
+                .ToList();
+
+            var virtualnetworkList = virtualNetworkTable
+                .Query<VirtualNetwork>()
+                .Where(
+                    x =>
+                    x.Status == "Active" ||
+                    x.InfrastructureRequestId == myQueueItem)
+                .ToList();
+
+            var subnetList = subnetTable
+                .Query<Subnet>()
+                .Where(
+                    x =>
+                    x.Status == "Active" ||
+                    x.InfrastructureRequestId == myQueueItem)
+                .ToList();
+
+            var networkInterfaceList = netowrkInterfaceTable
+                .Query<NetworkInterface>()
+                .Where(
+                    x =>
+                    x.Status == "Active" ||
+                    x.InfrastructureRequestId == myQueueItem)
+                .ToList();
+
+            var virtualMachineList = virtualMachineTable
+                .Query<VirtualMachine>()
+                .Where(
+                    x =>
+                    x.Status == "Active" ||
+                    x.InfrastructureRequestId == myQueueItem)
+                .ToList();
 
             using (var repo = new Repository(repoPath))
             {
@@ -62,6 +107,10 @@ namespace funcInfrastructureAsCode.Functions.Functions
                 git.PushChanges(repo, branch, log);
                 await github.CreatePullRequest(branch.FriendlyName, log);
             }
+
+            Directory.Delete(
+                repoPath,
+                true);
         }
 
         private static void GenerateTerraFormFiles(

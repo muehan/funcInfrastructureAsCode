@@ -16,10 +16,10 @@ namespace FuncInfrastructureAsCode.Functions.Functions
         [FunctionName("GetVirtualMachines")]
         public static IActionResult GetVirtualMachines(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "VirtualMachines")] HttpRequest req,
-            [Table("VirtualMachine", Connection = "AzureWebJobsStorage")] TableClient virtualNetworkTable,
+            [Table("VirtualMachine", Connection = "AzureWebJobsStorage")] TableClient virtualMachineTable,
             ILogger log)
         {
-            var networks = virtualNetworkTable
+            var networks = virtualMachineTable
                 .Query<VirtualMachine>()
                 .ToList();
 
